@@ -1,11 +1,14 @@
 import { DrinkId } from "./DrinkId";
+import type { Size } from "./Size";
 
 export class Drink {
   private _drinkId: DrinkId;
   private _name: string;
+  private _size: Size;
 
-  constructor(drinkId: DrinkId, name: string) {
+  constructor(drinkId: DrinkId, name: string, size: Size) {
     this._drinkId = drinkId;
+    this._size = size;
     this.setName(name);
   }
 
@@ -15,6 +18,10 @@ export class Drink {
 
   get name(): string {
     return this._name;
+  }
+
+  get size(): Size {
+    return this._size;
   }
 
   private setName(aname: string) {

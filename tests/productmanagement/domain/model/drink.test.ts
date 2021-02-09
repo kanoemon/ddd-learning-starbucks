@@ -5,8 +5,9 @@ describe('create drink object', () => {
   test('equals', () => {
     const drink = new Drink(
       new DrinkId(1),
-      'coffee'
+      'coffee',
+      'short'
     );
-    expect(drink.equals( new Drink( new DrinkId(1), 'tea' ) )).toBe(true);
+    expect(drink.equals( new Drink( new DrinkId(1), 'tea', 'short' ) )).toBe(true);
   });
 });
