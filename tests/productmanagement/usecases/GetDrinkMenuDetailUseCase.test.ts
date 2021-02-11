@@ -23,7 +23,9 @@ describe('get drink menu detail', () => {
     const result = usecase.handle(
       new GetDrinkMenuDetailUseCaseRequest(1)
     );
-    if (result instanceof ErrorResponse) throw new Error('failed');
+    if (result instanceof ErrorResponse) {
+      throw new Error('failed');
+    }
 
     expect(result.id).toBe(1);
     expect(result.name).toBe('drip coffee');
@@ -39,6 +41,8 @@ describe('get drink menu detail', () => {
     const result = usecase.handle(
       new GetDrinkMenuDetailUseCaseRequest(1)
     );
+
+    // result.fail() で判定したい
     if (result instanceof GetDrinkMenuDetailUseCaseResponse) throw new Error('failed');
   });
 });
