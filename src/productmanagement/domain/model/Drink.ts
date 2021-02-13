@@ -45,4 +45,8 @@ export class Drink {
   equals(anObject: Drink): boolean {
     return this._drinkId.equals(anObject.drinkId);
   }
+
+  changeName(aName: string) {
+    this.setName(aName);
+  }
 }
