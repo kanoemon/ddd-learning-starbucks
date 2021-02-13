@@ -9,7 +9,11 @@ describe('save drink menu', () => {
     const drinkRepository = new InMemoryDrinkRepository();
     const usecase = new SaveDrinkUseCase(drinkRepository);
     const result = usecase.handle(
-      new SaveDrinkUseCaseRequest('tea', 'short')
+      new SaveDrinkUseCaseRequest(
+        'tea', 
+        'short',
+        {'short': 300, 'tall': 400}
+      )
     );
 
     if (result.fail()) throw new Error('failed');
@@ -39,7 +43,11 @@ describe('save drink menu', () => {
 
     const usecase = new SaveDrinkUseCase(drinkRepository);
     const result = usecase.handle(
-      new SaveDrinkUseCaseRequest('tea', 'short')
+      new SaveDrinkUseCaseRequest(
+        'tea', 
+        'short',
+        {'short': 300, 'tall': 400}
+      )
     );
 
     if (!result.fail()) throw new Error('failed');
