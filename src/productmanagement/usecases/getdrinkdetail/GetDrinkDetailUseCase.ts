@@ -1,19 +1,19 @@
 import { DrinkId } from "../../domain/model/DrinkId";
 import { Drink } from "../../domain/model/Drink";
 import { DrinkRepository } from "../../domain/model/DrinkRepository";
-import { GetDrinkMenuDetailUseCaseResponse } from "./GetDrinkMenuDetailUseCaseResponse";
+import { GetDrinkDetailUseCaseResponse } from "./GetDrinkDetailUseCaseResponse";
 import { ErrorResponse } from "../ErrorResponse";
-import { GetDrinkMenuDetailUseCaseRequest } from "./GetDrinkMenuDetailUseCaseRequest";
+import { GetDrinkDetailUseCaseRequest } from "./GetDrinkDetailUseCaseRequest";
 import { UseCaseResponse, UseCaseSuccessResponse, UseCaseErrorResponse } from "../UseCaseResponse";
 
-export class GetDrinkMenuDetailUseCase {
+export class GetDrinkDetailUseCase {
   private _drinkRepository;
 
   constructor(drinkRepository: DrinkRepository) {
     this._drinkRepository = drinkRepository;
   }
 
-  handle(request: GetDrinkMenuDetailUseCaseRequest): UseCaseResponse<GetDrinkMenuDetailUseCaseResponse, ErrorResponse> {
+  handle(request: GetDrinkDetailUseCaseRequest): UseCaseResponse<GetDrinkDetailUseCaseResponse, ErrorResponse> {
     try {
       const drinkId: DrinkId = new DrinkId(request.id);   
       const drink: Drink | null = this._drinkRepository.findById(drinkId);
@@ -22,7 +22,7 @@ export class GetDrinkMenuDetailUseCase {
       }
 
       return new UseCaseSuccessResponse(
-        new GetDrinkMenuDetailUseCaseResponse(
+        new GetDrinkDetailUseCaseResponse(
           drink.drinkId.id,
           drink.name,
           drink.size

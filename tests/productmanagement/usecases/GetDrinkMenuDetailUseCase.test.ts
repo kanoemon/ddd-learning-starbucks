@@ -1,10 +1,8 @@
 import { Drink } from "../../../src/productmanagement/domain/model/Drink";
 import { DrinkId } from "../../../src/productmanagement/domain/model/DrinkId";
 import { InMemoryDrinkRepository } from "../../../src/productmanagement/gateways/InMemoryDrinkRepository";
-import { ErrorResponse } from "../../../src/productmanagement/usecases/ErrorResponse";
-import { GetDrinkMenuDetailUseCase } from "../../../src/productmanagement/usecases/getmenudetail/GetDrinkMenuDetailUseCase";
-import { GetDrinkMenuDetailUseCaseRequest } from "../../../src/productmanagement/usecases/getmenudetail/GetDrinkMenuDetailUseCaseRequest";
-import { GetDrinkMenuDetailUseCaseResponse } from "../../../src/productmanagement/usecases/getmenudetail/GetDrinkMenuDetailUseCaseResponse";
+import { GetDrinkDetailUseCase } from "../../../src/productmanagement/usecases/getdrinkdetail/GetDrinkDetailUseCase";
+import { GetDrinkDetailUseCaseRequest } from "../../../src/productmanagement/usecases/getdrinkdetail/GetDrinkDetailUseCaseRequest";
 
 describe('get drink menu detail', () => {
   test('get details of a drink menu', () => {
@@ -17,11 +15,11 @@ describe('get drink menu detail', () => {
       )
     );
 
-    const usecase = new GetDrinkMenuDetailUseCase(
+    const usecase = new GetDrinkDetailUseCase(
       drinkRepository
     );
     const result = usecase.handle(
-      new GetDrinkMenuDetailUseCaseRequest(1)
+      new GetDrinkDetailUseCaseRequest(1)
     );
 
     if (result.fail()) throw new Error('failed');
@@ -34,11 +32,11 @@ describe('get drink menu detail', () => {
   test('not found', () => {
     const drinkRepository = new InMemoryDrinkRepository();
 
-    const usecase = new GetDrinkMenuDetailUseCase(
+    const usecase = new GetDrinkDetailUseCase(
       drinkRepository
     );
     const result = usecase.handle(
-      new GetDrinkMenuDetailUseCaseRequest(1)
+      new GetDrinkDetailUseCaseRequest(1)
     );
 
     if (!result.fail()) throw new Error('failed');

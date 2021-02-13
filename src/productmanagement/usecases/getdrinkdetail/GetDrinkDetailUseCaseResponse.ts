@@ -1,4 +1,4 @@
-export class GetDrinkMenuDetailUseCaseResponse {
+export class GetDrinkDetailUseCaseResponse {
   private _id: number;
   private _name: string;
   private _size: string;

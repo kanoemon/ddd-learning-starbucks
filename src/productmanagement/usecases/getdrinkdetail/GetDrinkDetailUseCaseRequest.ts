@@ -1,4 +1,4 @@
-export class GetDrinkMenuDetailUseCaseRequest {
+export class GetDrinkDetailUseCaseRequest {
   private _id: number;
 
   constructor(id: number) {
