@@ -6,9 +6,9 @@ export class Drink {
   private _name: string;
   private _size: Size;
 
-  constructor(drinkId: DrinkId, name: string, size: Size) {
+  constructor(drinkId: DrinkId, name: string, size: string) {
     this._drinkId = drinkId;
-    this._size = size;
+    this.setSize(size);
     this.setName(name);
   }
 
@@ -29,6 +29,17 @@ export class Drink {
       throw new Error('name empty');
     }
     this._name = aname;
+  }
+
+  private setSize(aSize: string) {
+    if (aSize !== 'short'
+          && aSize !== 'tall'
+          && aSize !== 'grande'
+          && aSize !== 'venti') {
+      throw new Error('size invalid');
+    }
+    this._size = aSize;
+
   }
 
   equals(anObject: Drink): boolean {

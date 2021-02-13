@@ -23,7 +23,7 @@ export class SaveDrinkUseCase {
       const drink: Drink = new Drink(
         drinkId,
         request.name,
-        'short'
+        request.size
       );
 
       if (this._drinkService.exists(drink)) {
@@ -36,7 +36,7 @@ export class SaveDrinkUseCase {
         new SaveDrinkUseCaseResponse(
           drink.drinkId.id, 
           drink.name,
-          'short'
+          drink.size
           )
       );
     } catch(e) {
