@@ -1,8 +1,9 @@
-import { DrinkId, Drink, DrinkRepository } from "../../domain/model/drinks";
+import { DrinkId, Drink, DrinkRepository, DrinkSize } from "../../domain/model/drinks";
 import { UpdateDrinkUseCaseResponse } from "./UpdateDrinkUseCaseResponse";
 import { ErrorResponse } from "../ErrorResponse";
 import { UpdateDrinkUseCaseRequest } from "./UpdateDrinkUseCaseRequest";
 import { UseCaseResponse, UseCaseSuccessResponse, UseCaseErrorResponse } from "../UseCaseResponse";
+import { MenuPrice } from "../../domain/model/MenuPrice";
 
 export class UpdateDrinkUseCase {
   private _drinkRepository;
@@ -20,6 +21,14 @@ export class UpdateDrinkUseCase {
       if (drink === null) throw new Error('not found');
 
       if (request.name) drink.changeName(request.name);
+      if (request.prices) {
+        for (const price of request.prices) {
+          drink.registerPrice(
+            new DrinkSize(price.size),
+            new MenuPrice(price.price)
+          );
+        }
+      }
 
       this._drinkRepository.save(drink);
 
@@ -27,6 +36,7 @@ export class UpdateDrinkUseCase {
         new UpdateDrinkUseCaseResponse(drink.drinkId.id)
       );
     } catch(e) {
+      console.log(e);
       const errorResponse = new ErrorResponse();
       errorResponse.addMessage(e)
       return new UseCaseErrorResponse(

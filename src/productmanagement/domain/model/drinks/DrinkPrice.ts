@@ -22,4 +22,8 @@ export class DrinkPrice {
     return this._drinkSize.equals(aDrinkPrice.drinkSize)
             && this._menuPrice.equals(aDrinkPrice.menuPrice);
   }
+
+  changePrice(aMenuPrice: MenuPrice): void {
+    this._menuPrice = aMenuPrice;
+  }
 }

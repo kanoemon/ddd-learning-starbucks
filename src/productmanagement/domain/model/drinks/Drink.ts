@@ -20,12 +20,19 @@ export class Drink {
   }
 
   registerPrice(aDrinkSize: DrinkSize, aMenuPrice: MenuPrice): void {
-    const drinkPricesOfSize: DrinkPrice[] = this._drinkPrices.filter(drinkPrice =>
-      drinkPrice.drinkSize.equals(aDrinkSize)
-    );
-    if (drinkPricesOfSize.length > 0) throw new Error('price already exists');
+    const drinkPrice: DrinkPrice | null = this.priceOfSize(aDrinkSize);
+    if (drinkPrice === null) {
+      this._drinkPrices.push(new DrinkPrice(aDrinkSize, aMenuPrice));
+      return;
+    }
+    drinkPrice.changePrice(aMenuPrice);
+  }
 
-    this._drinkPrices.push(new DrinkPrice(aDrinkSize, aMenuPrice));
+  private priceOfSize(aDrinkSize: DrinkSize): DrinkPrice | null {
+    for (const drinkPrice of this._drinkPrices) {
+      if (drinkPrice.drinkSize.equals(aDrinkSize)) return drinkPrice;
+    }
+    return null;
   }
 
   get drinkId(): DrinkId {
