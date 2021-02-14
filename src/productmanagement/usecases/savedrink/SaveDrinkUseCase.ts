@@ -1,12 +1,9 @@
-import { DrinkId } from "../../domain/model/DrinkId";
-import { Drink } from "../../domain/model/Drink";
-import { DrinkRepository } from "../../domain/model/DrinkRepository";
+import { Drink, DrinkId, DrinkRepository, DrinkService, DrinkSize } from "../../domain/model/drinks";
 import { SaveDrinkUseCaseResponse } from "./SaveDrinkUseCaseResponse";
 import { ErrorResponse } from "../ErrorResponse";
 import { SaveDrinkUseCaseRequest } from "./SaveDrinkUseCaseRequest";
 import { UseCaseResponse, UseCaseSuccessResponse, UseCaseErrorResponse } from "../UseCaseResponse";
-import { DrinkService } from "../../domain/model/DrinkService";
-import { Size } from "../../domain/model/Size";
+import { MenuPrice } from "../../domain/model/MenuPrice";
 
 export class SaveDrinkUseCase {
   private _drinkRepository;
@@ -19,11 +16,11 @@ export class SaveDrinkUseCase {
 
   handle(request: SaveDrinkUseCaseRequest): UseCaseResponse<SaveDrinkUseCaseResponse, ErrorResponse> {
     try {
-      const drinkId: DrinkId = this._drinkRepository.nextIdentifier();
-      const drink: Drink = new Drink(
+      const drinkId: DrinkId = this._drinkRepository.nextIdentity();
+      const drink: Drink = this.newDrink(
         drinkId,
         request.name,
-        request.size
+        request.prices
       );
 
       if (this._drinkService.exists(drink)) {
@@ -33,11 +30,7 @@ export class SaveDrinkUseCase {
       this._drinkRepository.save(drink);
 
       return new UseCaseSuccessResponse(
-        new SaveDrinkUseCaseResponse(
-          drink.drinkId.id, 
-          drink.name,
-          drink.size
-          )
+        new SaveDrinkUseCaseResponse(drink.drinkId.id)
       );
     } catch(e) {
       const errorResponse = new ErrorResponse();
@@ -46,5 +39,20 @@ export class SaveDrinkUseCase {
         errorResponse
       );
     }
+  }
+
+  private newDrink(drinkId: DrinkId, name: string, prices: {size: string, price: number}[]): Drink {
+    const drink: Drink = new Drink(
+      drinkId,
+      name
+    );
+
+    for(const price of prices) {
+      drink.registerPrice(
+        new DrinkSize(price.size),
+        new MenuPrice(price.price)
+      );
+    }
+    return drink;
   }
 }

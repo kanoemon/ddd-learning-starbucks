@@ -1,6 +1,4 @@
-import { Drink } from "../domain/model/Drink";
-import { DrinkId } from "../domain/model/DrinkId";
-import { DrinkRepository } from "../domain/model/DrinkRepository";
+import { DrinkRepository, DrinkId, Drink } from "../domain/model/drinks";
 
 export class InMemoryDrinkRepository implements DrinkRepository {
   private _drinks: Drink[] = [];
@@ -19,7 +17,7 @@ export class InMemoryDrinkRepository implements DrinkRepository {
     this._drinks.push(aDrink);
   }
 
-  nextIdentifier(): DrinkId {
+  nextIdentity(): DrinkId {
     return new DrinkId(this._drinks.length + 1);
   }
 }

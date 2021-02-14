@@ -1,22 +1,17 @@
 export class SaveDrinkUseCaseRequest {
   private _name: string;
-  private _size: string;
-  private _prices: {[s: string]: number};
+  private _prices: {size: string, price: number}[] = [];
 
-  constructor(name: string, size: string, prices: {[s: string]: number}) {
+  constructor(name: string, prices: {size: string, price: number}[]) {
     this._name = name;
-    this._size = size;
+    this._prices = prices;
   }
 
   get name(): string {
     return this._name;
   }
 
-  get size(): string {
-    return this._size;
-  }
-
-  get prices(): {[s: string]: number} {
+  get prices(): {size: string, price: number}[] {
     return this._prices;
   }
 }

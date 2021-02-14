@@ -19,15 +19,13 @@ export class Drink {
     this._name = aName;
   }
 
-  setPrice(aSize: string, aPrice: number): void {
-    const drinkSize: DrinkSize = new DrinkSize(aSize);
+  registerPrice(aDrinkSize: DrinkSize, aMenuPrice: MenuPrice): void {
     const drinkPricesOfSize: DrinkPrice[] = this._drinkPrices.filter(drinkPrice =>
-      drinkPrice.drinkSize.equals(drinkSize)
+      drinkPrice.drinkSize.equals(aDrinkSize)
     );
     if (drinkPricesOfSize.length > 0) throw new Error('price already exists');
 
-    const menuPrice: MenuPrice = new MenuPrice(aPrice);
-    this._drinkPrices.push(new DrinkPrice(drinkSize, menuPrice));
+    this._drinkPrices.push(new DrinkPrice(aDrinkSize, aMenuPrice));
   }
 
   get drinkId(): DrinkId {
@@ -38,8 +36,8 @@ export class Drink {
     return this._name;
   }
 
-  get drinkPrices(): [] {
-    return [];
+  get drinkPrices(): DrinkPrice[] {
+    return this._drinkPrices;
   }
 
   equals(aDrink: Drink): boolean {
