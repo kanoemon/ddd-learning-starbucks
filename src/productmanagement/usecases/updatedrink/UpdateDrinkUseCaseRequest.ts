@@ -1,12 +1,10 @@
 export class UpdateDrinkUseCaseRequest {
   private _id: number;
   private _name: string;
-  private _size: string;
+  private _prices: {size: string, price: number}[];
 
-  constructor(id: number, name: string, size: string) {
+  constructor(id: number) {
     this._id = id;
-    this._name = name;
-    this._size = size;
   }
 
   get id(): number {
@@ -17,7 +15,15 @@ export class UpdateDrinkUseCaseRequest {
     return this._name;
   }
 
-  get size(): string {
-    return this._size;
+  setName(aName: string): void {
+    this._name = aName;
+  }
+
+  get prices(): {size: string, price: number}[] {
+    return this._prices;
+  }
+
+  setPrices(aPrices: {size: string, price: number}[]): void {
+    this._prices = aPrices;
   }
 }

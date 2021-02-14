@@ -1,4 +1,5 @@
-import { Drink, DrinkId } from "../../../../../src/productmanagement/domain/model/drinks";
+import { Drink, DrinkId, DrinkSize } from "../../../../../src/productmanagement/domain/model/drinks";
+import { MenuPrice } from "../../../../../src/productmanagement/domain/model/MenuPrice";
 
 describe('Drink', () => {
   describe('create a Drink object', () => {
@@ -7,7 +8,10 @@ describe('Drink', () => {
         new DrinkId(1),
         'coffee'
       );
-      drink.setPrice('short', 300);
+      drink.registerPrice(
+        new DrinkSize('short'), 
+        new MenuPrice(300))
+      ;
 
       expect(drink.drinkId.id).toBe(1);
       expect(drink.name).toBe('coffee');

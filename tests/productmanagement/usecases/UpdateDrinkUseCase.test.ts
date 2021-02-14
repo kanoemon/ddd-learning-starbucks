@@ -1,32 +1,30 @@
-import { Drink } from "../../../src/productmanagement/domain/model/Drink";
-import { DrinkId } from "../../../src/productmanagement/domain/model/DrinkId";
+import { Drink, DrinkId, DrinkSize } from "../../../src/productmanagement/domain/model/drinks";
+import { MenuPrice } from "../../../src/productmanagement/domain/model/MenuPrice";
 import { InMemoryDrinkRepository } from "../../../src/productmanagement/gateways/InMemoryDrinkRepository";
 import { UpdateDrinkUseCase } from "../../../src/productmanagement/usecases/updatedrink/UpdateDrinkUseCase";
 import { UpdateDrinkUseCaseRequest } from "../../../src/productmanagement/usecases/updatedrink/UpdateDrinkUseCaseRequest";
 
 describe('update a drink menu', () => {
   test('update name', () => {
+    const drink = new Drink(new DrinkId(1), 'coffee');
+    drink.registerPrice(new DrinkSize('short'), new MenuPrice(300));
+
     const drinkRepository = new InMemoryDrinkRepository();
-    drinkRepository.save(
-      new Drink(
-        new DrinkId(1),
-        'tea',
-        'short'
-      )
-    );
+    drinkRepository.save(drink);
+
     const usecase = new UpdateDrinkUseCase(drinkRepository);
 
-    const result = usecase.handle(
-      new UpdateDrinkUseCaseRequest(
-        1,
-        'menu changed',
-        'short'
-      )
-    );
+    const request = new UpdateDrinkUseCaseRequest(1);
+    request.setName('menu changed');
 
+    const result = usecase.handle(request);
     if (result.fail()) throw new Error('failed');
 
-    expect(result.response.name).toBe('menu changed');
-    expect(result.response.size).toBe('short');
+    const aDrink = drinkRepository.findById(
+        new DrinkId(result.response.id)
+    );
+
+    if (aDrink === null) throw new Error('failed');
+    expect(aDrink.name).toBe('menu changed');
   });
 });
