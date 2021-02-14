@@ -1,12 +1,12 @@
 export class GetDrinkDetailUseCaseResponse {
   private _id: number;
   private _name: string;
-  private _size: string;
+  private _prices: {size: string, price: number}[];
 
-  constructor(id: number, name: string, size: string) {
+  constructor(id: number, name: string, prices: {size: string, price: number}[]) {
     this._id = id;
     this._name = name;
-    this._size = size;
+    this._prices = prices;
   }
 
   get id(): number {
@@ -17,7 +17,7 @@ export class GetDrinkDetailUseCaseResponse {
     return this._name;
   }
 
-  get size(): string {
-    return this._size;
+  get prices(): {size: string, price: number}[] {
+    return this._prices;
   }
 }

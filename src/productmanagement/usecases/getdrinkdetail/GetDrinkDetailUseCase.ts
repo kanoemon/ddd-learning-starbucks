@@ -1,6 +1,4 @@
-import { DrinkId } from "../../domain/model/DrinkId";
-import { Drink } from "../../domain/model/Drink";
-import { DrinkRepository } from "../../domain/model/DrinkRepository";
+import { DrinkId, Drink, DrinkRepository, DrinkPrice } from "../../domain/model/drinks";
 import { GetDrinkDetailUseCaseResponse } from "./GetDrinkDetailUseCaseResponse";
 import { ErrorResponse } from "../ErrorResponse";
 import { GetDrinkDetailUseCaseRequest } from "./GetDrinkDetailUseCaseRequest";
@@ -25,7 +23,7 @@ export class GetDrinkDetailUseCase {
         new GetDrinkDetailUseCaseResponse(
           drink.drinkId.id,
           drink.name,
-          drink.size
+          this.toHash(drink.drinkPrices)
         )
       );
     } catch(e) {
@@ -35,5 +33,16 @@ export class GetDrinkDetailUseCase {
         errorResponse
       );
     }
+  }
+
+  private toHash(drinkPrices: DrinkPrice[]): {size: string, price: number}[] {
+    let hashArray = [];
+    for(const drinkPrice of drinkPrices) {
+      hashArray.push({
+        size: drinkPrice.drinkSize.size,
+        price: drinkPrice.menuPrice.price
+      })
+    }
+    return hashArray;
   }
 }
