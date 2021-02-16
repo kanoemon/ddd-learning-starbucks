@@ -34,7 +34,8 @@
     "rebuild": "npm run clean && npm run build",
     "prestart": "npm run rebuild",
     "start": "node -r source-map-support/register .",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "lb4": "lb4"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
   ],
   "dependencies": {
     "@loopback/boot": "^3.2.1",
+    "@loopback/cli": "^2.19.0",
     "@loopback/core": "^2.14.1",
     "@loopback/repository": "^3.4.1",
     "@loopback/rest": "^9.1.3",
