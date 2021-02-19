@@ -22,7 +22,7 @@
     "eslint": "lb-eslint --report-unused-disable-directives .",
     "eslint:fix": "npm run eslint -- --fix",
     "pretest": "npm run rebuild",
-    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
+    "test": "jest",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
     "docker:build": "docker build -t ddd-learning-starbucks .",
@@ -61,11 +61,14 @@
   },
   "devDependencies": {
     "@loopback/build": "^6.2.9",
-    "source-map-support": "^0.5.19",
-    "@loopback/testlab": "^3.2.12",
-    "@types/node": "^10.17.51",
     "@loopback/eslint-config": "^10.0.5",
+    "@loopback/testlab": "^3.2.12",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^10.17.51",
     "eslint": "^7.18.0",
+    "jest": "^26.6.3",
+    "source-map-support": "^0.5.19",
+    "ts-jest": "^26.5.1",
     "typescript": "~4.1.3"
   }
 }
