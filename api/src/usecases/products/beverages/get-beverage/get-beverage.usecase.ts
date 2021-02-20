@@ -7,7 +7,7 @@ export class GetBeverageUseCase {
     this.beverageRepository = beverageRepository;
   }
 
-  async handle(id: number): Promise<Beverage> {
+  async handle(id: number): Promise<Beverage | null> {
     const beverageId: BeverageId = new BeverageId(id); 
     const beverage = this.beverageRepository.findById(beverageId);
     return beverage;

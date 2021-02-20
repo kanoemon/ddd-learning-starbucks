@@ -8,4 +8,8 @@ export class BeverageId {
   get id(): number {
     return this._id;
   }
+
+  equals(aBeverageId: BeverageId): boolean {
+    return aBeverageId.id === this._id;
+  }
 }
