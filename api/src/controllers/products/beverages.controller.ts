@@ -1,18 +1,17 @@
-import {get, param, response, getModelSchemaRef} from '@loopback/rest';
-import { Beverage } from '../../domain/models/products/beverages';
-import {GetProductUseCase} from '../../usecases/products/beverages/get-product';
+import {get, param, response, getModelSchemaRef, operation} from '@loopback/rest';
+import {GetBeverageUseCase, GetBeverageModel} from '../../usecases/products/beverages/get-product';
 
-export class Beverages {
+export class BeveragesController {
   constructor() {}
 
   @get('/products/beverages/{id}')
   @response(200, {
-    content: {'application/json': {schema: getModelSchemaRef(Beverage)}}
+    content: {'application/json': {schema: getModelSchemaRef(GetBeverageModel)}}
   })
   async findById(
     @param.path.number('id') id: number
-  ): Promise<Beverage> {
-    const usecase: GetProductUseCase = new GetProductUseCase();
+  ): Promise<GetBeverageModel> {
+    const usecase: GetBeverageUseCase = new GetBeverageUseCase();
     return usecase.handle(id);
   }
 }

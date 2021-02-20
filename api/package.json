@@ -34,6 +34,7 @@
     "rebuild": "npm run clean && npm run build",
     "prestart": "npm run rebuild",
     "start": "node -r source-map-support/register .",
+    "start:watch": "tsc-watch --target es2017 --outDir ./dist --onSuccess \"node .\"",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
     "lb4": "lb4"
   },
@@ -69,6 +70,7 @@
     "jest": "^26.6.3",
     "source-map-support": "^0.5.19",
     "ts-jest": "^26.5.1",
+    "tsc-watch": "^4.2.9",
     "typescript": "~4.1.3"
   }
 }
