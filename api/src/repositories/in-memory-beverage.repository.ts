@@ -14,4 +14,8 @@ export class InMemoryBeverageRepository implements BeverageRepository {
   async save(aBeverage: Beverage): Promise<void> {
     this._beverages.push(aBeverage);
   }
+
+  async nextIdentity(): Promise<BeverageId> {
+    return new BeverageId(this._beverages.length + 1);
+  }
 }
