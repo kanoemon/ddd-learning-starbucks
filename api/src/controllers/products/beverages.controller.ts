@@ -1,5 +1,5 @@
 import {get, param, response, getModelSchemaRef, operation} from '@loopback/rest';
-import {GetBeverageUseCase, GetBeverageModel} from '../../usecases/products/beverages/get-product';
+import {GetBeverageUseCase, GetBeverageModel} from '../../usecases/products/beverages/get-beverage';
 
 export class BeveragesController {
   constructor() {}
