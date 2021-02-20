@@ -1,11 +1,10 @@
 import {Beverage} from '../../../../domain/models/products/beverages';
-import {GetBeverageModel} from './get-beverage.model';
 
 export class GetBeverageUseCase {
   constructor() {}
 
-  handle(id: number): GetBeverageModel {
+  handle(id: number): Beverage {
     const beverage = new Beverage('coffee');
-    return new GetBeverageModel({name: 'coffee'});
+    return beverage;
   }
 }

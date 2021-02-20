@@ -1,17 +1,20 @@
-import {get, param, response, getModelSchemaRef, operation} from '@loopback/rest';
-import {GetBeverageUseCase, GetBeverageModel} from '../../usecases/products/beverages/get-beverage';
+import {get, param, response, getModelSchemaRef} from '@loopback/rest';
+import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
+import {GetBeverageModel} from './';
 
 export class BeveragesController {
   constructor() {}
 
   @get('/products/beverages/{id}')
   @response(200, {
+    description: 'ok',
     content: {'application/json': {schema: getModelSchemaRef(GetBeverageModel)}}
   })
   async findById(
     @param.path.number('id') id: number
   ): Promise<GetBeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase();
-    return usecase.handle(id);
+    const result = usecase.handle(id);
+    return new GetBeverageModel({name: 'coffee'});
   }
 }
