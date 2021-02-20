@@ -1,4 +1,5 @@
 import {get, param, response, getModelSchemaRef} from '@loopback/rest';
+import { InMemoryBeverageRepository } from '../../repositories';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageModel} from './';
 
@@ -13,7 +14,9 @@ export class BeveragesController {
   async findById(
     @param.path.number('id') id: number
   ): Promise<GetBeverageModel> {
-    const usecase: GetBeverageUseCase = new GetBeverageUseCase();
+    const usecase: GetBeverageUseCase = new GetBeverageUseCase(
+      new InMemoryBeverageRepository()
+    );
     const result = usecase.handle(id);
     return new GetBeverageModel({name: 'coffee'});
   }

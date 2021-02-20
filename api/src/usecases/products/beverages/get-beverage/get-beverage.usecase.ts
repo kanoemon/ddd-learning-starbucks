@@ -1,10 +1,15 @@
-import {Beverage} from '../../../../domain/models/products/beverages';
+import {Beverage, BeverageId, BeverageRepository} from '../../../../domain/models/products/beverages';
 
 export class GetBeverageUseCase {
-  constructor() {}
+  private beverageRepository: BeverageRepository;
 
-  handle(id: number): Beverage {
-    const beverage = new Beverage('coffee');
+  constructor(beverageRepository: BeverageRepository) {
+    this.beverageRepository = beverageRepository;
+  }
+
+  async handle(id: number): Promise<Beverage> {
+    const beverageId: BeverageId = new BeverageId(id); 
+    const beverage = this.beverageRepository.findById(beverageId);
     return beverage;
   }
 }
