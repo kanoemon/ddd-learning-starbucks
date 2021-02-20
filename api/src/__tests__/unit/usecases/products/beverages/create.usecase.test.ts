@@ -14,7 +14,7 @@ describe('create', () => {
     const result = await usecase.handle(command);
 
     const beverage = await repository.findById(result);
-    if (beverage === null) return;
+    if (beverage === null) throw new Error('failed');
 
     expect(beverage.name).toBe('coffee');
     expect(beverage.explanation).toBe('new coffee');

@@ -17,7 +17,7 @@ describe('Get Beverage Usecase', () => {
 
     const usecase = new GetBeverageUseCase(repository);
     const result = await usecase.handle(1);
-    if (result === null) return;
+    if (result === null) throw new Error('failed');
 
     expect(result.beverageId.id).toBe(1);
     expect(result.name).toBe('coffee');
