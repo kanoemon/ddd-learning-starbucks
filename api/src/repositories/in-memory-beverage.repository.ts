@@ -18,4 +18,11 @@ export class InMemoryBeverageRepository implements BeverageRepository {
   async nextIdentity(): Promise<BeverageId> {
     return new BeverageId(this._beverages.length + 1);
   }
+
+  async remove(aBeverageId: BeverageId): Promise<void> {
+    const ExcludedBeverages: Beverage[] = this._beverages.filter(beverage => 
+      !beverage.beverageId.equals(aBeverageId)
+    );
+    this._beverages = ExcludedBeverages;
+  }
 }

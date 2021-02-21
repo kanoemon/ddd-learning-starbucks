@@ -5,4 +5,5 @@ export interface BeverageRepository {
   findById(aBeverageId: BeverageId): Promise<Beverage | null>;
   save(aBeverage: Beverage): Promise<void>;
   nextIdentity(): Promise<BeverageId>;
+  remove(aBeverageId: BeverageId): Promise<void>;
 }
