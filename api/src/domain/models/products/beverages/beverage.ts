@@ -54,6 +54,20 @@ export class Beverage {
     return beveragePrices.length > 0 ? beveragePrices[0] : null;
   }
 
+  changeName(aName: string): void {
+    this._name = aName;
+  }
+
+  changeExplanation(aExplanation: string): void {
+    this._explanation = aExplanation;
+  }
+
+  changePriceOfSize(aSize: string, aPrice: number): void {
+    const beveragePrice: BeveragePrice | null = this.priceofSize(aSize);
+    if (beveragePrice === null) throw new Error('not found');
+    beveragePrice.changePrice(aPrice);
+  }
+
   equals(aBeverage: Beverage): boolean {
     return aBeverage.beverageId.equals(this._beverageId);
   }

@@ -18,6 +18,10 @@ export class BeveragePrice {
     return this._productPrice;
   }
 
+  changePrice(aPrice: number): void {
+    this._productPrice = new ProductPrice(aPrice);
+  }
+
   equals(aBeverage: BeverageSize): boolean {
     return this._beverageSize.equals(aBeverage);
   }
