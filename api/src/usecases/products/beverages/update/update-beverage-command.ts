@@ -1,4 +1,4 @@
-export class UpdateBeverageCommand {
+export class Up2dateBeverageCommand {
   readonly id: number;
   name: string;
   explanation: string;
@@ -8,4 +8,12 @@ export class UpdateBeverageCommand {
   constructor(id: number) {
     this.id = id;
   }
+}
+
+export interface UpdateBeverageCommand {
+  id: number,
+  name: string,
+  explanation: string,
+  priceOfShort: number,
+  priceOfTall: number
 }

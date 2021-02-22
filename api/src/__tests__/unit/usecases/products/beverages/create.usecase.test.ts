@@ -3,15 +3,13 @@ import { InMemoryBeverageRepository } from "../../../../../repositories";
 
 describe('create', () => {
   test('ok', async () => {
-    const command = new NewBeverageCommand(
-      'coffee',
-      'new coffee',
-      [{size: 'short', price: 500}]
-    );
-
     const repository = new InMemoryBeverageRepository();
     const usecase = new CreateUseCase(repository);
-    const result = await usecase.handle(command);
+    const result = await usecase.handle({
+      name: 'coffee',
+      explanation: 'new coffee',
+      prices: [{size: 'short', price: 500}]
+    });
 
     const beverage = await repository.findById(result);
     if (beverage === null) throw new Error('failed');

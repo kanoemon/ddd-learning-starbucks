@@ -16,7 +16,9 @@ describe('Get Beverage Usecase', () => {
     repository.save(beverage);
 
     const usecase = new GetBeverageUseCase(repository);
-    const result = await usecase.handle(1);
+    const result = await usecase.handle({
+      id: 1
+    });
     if (result === null) throw new Error('failed');
 
     expect(result.beverageId.id).toBe(1);

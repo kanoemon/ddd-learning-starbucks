@@ -5,12 +5,6 @@ import { UpdateUseCase } from "../../../../../usecases/products/beverages/update
 
 describe('Update UseCase', () => {
   test('ok', async () => {
-    const command = new UpdateBeverageCommand(1);
-    command.name = 'change coffee';
-    command.explanation = 'change explanation';
-    command.priceOfShort = 500;
-    command.priceOfTall = 1000;
-
     const beverage = new Beverage(
       new BeverageId(1),
       'coffee',
@@ -23,7 +17,13 @@ describe('Update UseCase', () => {
     repository.save(beverage);
 
     const usecase = new UpdateUseCase(repository);
-    const result = await usecase.handle(command);
+    const result = await usecase.handle({
+      id: 1,
+      name: 'change coffee',
+      explanation: 'change explanation',
+      priceOfShort: 500,
+      priceOfTall: 1000
+    });
 
     const aBeverage = await repository.findById(result);
     if (aBeverage === null) throw new Error('failed');

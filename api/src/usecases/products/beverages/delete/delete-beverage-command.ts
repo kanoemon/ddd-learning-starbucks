@@ -1,6 +1,3 @@
-export class DeleteBeverageCommand {
-  readonly id: number;
-  constructor(id: number) {
-    this.id = id;
-  }
+export interface DeleteBeverageCommand {
+  id: number
 }

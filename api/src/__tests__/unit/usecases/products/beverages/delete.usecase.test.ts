@@ -15,9 +15,9 @@ describe('Delete UseCase', () => {
     repository.save(beverage);
 
     const usecase = new DeleteUseCase(repository);
-    await usecase.handle(
-      new DeleteBeverageCommand(1)
-    );
+    await usecase.handle({
+      id: 1
+    });
 
     const result = await repository.findById(new BeverageId(1));
     expect(result).toBe(null);
