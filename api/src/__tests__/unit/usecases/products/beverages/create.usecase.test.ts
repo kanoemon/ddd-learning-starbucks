@@ -1,5 +1,8 @@
-import { CreateUseCase, NewBeverageCommand } from "../../../../../usecases/products/beverages/create";
-import { InMemoryBeverageRepository } from "../../../../../repositories";
+import {
+  CreateUseCase,
+  NewBeverageCommand,
+} from '../../../../../usecases/products/beverages/create';
+import {InMemoryBeverageRepository} from '../../../../../repositories';
 
 describe('create', () => {
   test('ok', async () => {
@@ -8,7 +11,7 @@ describe('create', () => {
     const result = await usecase.handle({
       name: 'coffee',
       explanation: 'new coffee',
-      prices: [{size: 'short', price: 500}]
+      prices: [{size: 'short', price: 500}],
     });
 
     const beverage = await repository.findById(result);
@@ -17,5 +20,5 @@ describe('create', () => {
     expect(beverage.name).toBe('coffee');
     expect(beverage.explanation).toBe('new coffee');
     expect(beverage.priceofSize('short')?.productPrice.price).toBe(500);
-  })
+  });
 });

@@ -1,4 +1,7 @@
-import {ApplicationConfig, DddLearningStarbucksApplication} from './application';
+import {
+  ApplicationConfig,
+  DddLearningStarbucksApplication,
+} from './application';
 
 export * from './application';
 

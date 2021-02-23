@@ -1,15 +1,14 @@
-import { UpdateBeverageCommand } from "../../../../../usecases/products/beverages/update/update-beverage-command";
-import { Beverage, BeverageId } from "../../../../../domain/models/products/beverages";
-import { InMemoryBeverageRepository } from "../../../../../repositories";
-import { UpdateUseCase } from "../../../../../usecases/products/beverages/update/update.usecase";
+import {UpdateBeverageCommand} from '../../../../../usecases/products/beverages/update/update-beverage-command';
+import {
+  Beverage,
+  BeverageId,
+} from '../../../../../domain/models/products/beverages';
+import {InMemoryBeverageRepository} from '../../../../../repositories';
+import {UpdateUseCase} from '../../../../../usecases/products/beverages/update/update.usecase';
 
 describe('Update UseCase', () => {
   test('ok', async () => {
-    const beverage = new Beverage(
-      new BeverageId(1),
-      'coffee',
-      'hogehoge'
-    );
+    const beverage = new Beverage(new BeverageId(1), 'coffee', 'hogehoge');
     beverage.addPrice('short', 100);
     beverage.addPrice('tall', 100);
 
@@ -22,7 +21,7 @@ describe('Update UseCase', () => {
       name: 'change coffee',
       explanation: 'change explanation',
       priceOfShort: 500,
-      priceOfTall: 1000
+      priceOfTall: 1000,
     });
 
     const aBeverage = await repository.findById(result);

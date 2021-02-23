@@ -1,3 +1,3 @@
 export interface DeleteBeverageCommand {
-  id: number
+  id: number;
 }

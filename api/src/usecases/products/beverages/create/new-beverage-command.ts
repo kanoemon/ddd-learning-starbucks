@@ -1,6 +1,6 @@
 export interface NewBeveragePrice {
-  size: string,
-  price: number
+  size: string;
+  price: number;
 }
 
 export interface NewBeverageCommand {

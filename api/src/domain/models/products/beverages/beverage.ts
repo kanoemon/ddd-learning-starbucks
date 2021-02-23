@@ -1,15 +1,15 @@
-import { ProductPrice } from "../product-price";
-import { BeverageId } from "./beverage-id";
-import { BeveragePrice } from "./beverage-price";
-import { BeverageSize } from "./beverage-size";
+import {ProductPrice} from '../product-price';
+import {BeverageId} from './beverage-id';
+import {BeveragePrice} from './beverage-price';
+import {BeverageSize} from './beverage-size';
 
 export class Beverage {
   private _beveragePrices: BeveragePrice[] = [];
 
   constructor(
-    readonly beverageId: BeverageId, 
+    readonly beverageId: BeverageId,
     private _name: string,
-    private _explanation: string
+    private _explanation: string,
   ) {
     this.setName(_name);
   }
@@ -31,16 +31,15 @@ export class Beverage {
   }
 
   addPrice(aSize: string, aPrice: number): void {
-    this._beveragePrices.push(new BeveragePrice(
-      new BeverageSize(aSize),
-      new ProductPrice(aPrice)
-    ));
+    this._beveragePrices.push(
+      new BeveragePrice(new BeverageSize(aSize), new ProductPrice(aPrice)),
+    );
   }
 
   priceofSize(aSize: string): BeveragePrice | null {
     const beverageSize: BeverageSize = new BeverageSize(aSize);
-    const beveragePrices: BeveragePrice[] = this._beveragePrices.filter(beveragePrice =>
-      beveragePrice.beverageSize.equals(beverageSize)
+    const beveragePrices: BeveragePrice[] = this._beveragePrices.filter(
+      beveragePrice => beveragePrice.beverageSize.equals(beverageSize),
     );
     return beveragePrices.length > 0 ? beveragePrices[0] : null;
   }

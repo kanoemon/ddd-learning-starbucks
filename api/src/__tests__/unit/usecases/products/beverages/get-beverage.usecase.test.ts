@@ -1,14 +1,13 @@
-import { Beverage, BeverageId } from "../../../../../domain/models/products/beverages";
-import { InMemoryBeverageRepository } from "../../../../../repositories";
-import { GetBeverageUseCase } from "../../../../../usecases/products/beverages/get-beverage";
+import {
+  Beverage,
+  BeverageId,
+} from '../../../../../domain/models/products/beverages';
+import {InMemoryBeverageRepository} from '../../../../../repositories';
+import {GetBeverageUseCase} from '../../../../../usecases/products/beverages/get-beverage';
 
 describe('Get Beverage Usecase', () => {
   test('ok', async () => {
-    const beverage = new Beverage(
-      new BeverageId(1),
-      'coffee',
-      'hot coffee'
-    );
+    const beverage = new Beverage(new BeverageId(1), 'coffee', 'hot coffee');
     beverage.addPrice('short', 300);
     beverage.addPrice('tall', 400);
 
@@ -17,7 +16,7 @@ describe('Get Beverage Usecase', () => {
 
     const usecase = new GetBeverageUseCase(repository);
     const result = await usecase.handle({
-      id: 1
+      id: 1,
     });
     if (result === null) throw new Error('failed');
 

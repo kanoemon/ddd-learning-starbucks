@@ -1,8 +1,11 @@
-import { Beverage, BeverageId, BeverageRepository } from "../../../../domain/models/products/beverages";
-import { NewBeverageCommand } from "./new-beverage-command";
+import {
+  Beverage,
+  BeverageId,
+  BeverageRepository,
+} from '../../../../domain/models/products/beverages';
+import {NewBeverageCommand} from './new-beverage-command';
 
 export class CreateUseCase {
-
   constructor(private beverageRepository: BeverageRepository) {}
 
   async handle(newBeverageCommand: NewBeverageCommand): Promise<BeverageId> {
@@ -10,7 +13,7 @@ export class CreateUseCase {
     const beverage: Beverage = new Beverage(
       beverageId,
       newBeverageCommand.name,
-      newBeverageCommand.explanation
+      newBeverageCommand.explanation,
     );
 
     for (const aPrice of newBeverageCommand.prices) {

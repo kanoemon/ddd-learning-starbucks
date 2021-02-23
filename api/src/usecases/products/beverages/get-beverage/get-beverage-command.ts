@@ -1,3 +1,3 @@
 export interface GetBeverageCommand {
-  id: number
+  id: number;
 }

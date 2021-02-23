@@ -1,10 +1,10 @@
-import { BeverageSize } from "./beverage-size";
-import { ProductPrice } from "../product-price";
+import {BeverageSize} from './beverage-size';
+import {ProductPrice} from '../product-price';
 
 export class BeveragePrice {
   constructor(
-    private _beverageSize: BeverageSize, 
-    private _productPrice: ProductPrice
+    private _beverageSize: BeverageSize,
+    private _productPrice: ProductPrice,
   ) {}
 
   get beverageSize(): BeverageSize {

@@ -4,8 +4,7 @@ export class BeverageSize {
   }
 
   private setSize(aSize: string): void {
-    if (aSize === 'short'
-          || aSize === 'tall') {
+    if (aSize === 'short' || aSize === 'tall') {
       this._size = aSize;
       return;
     }

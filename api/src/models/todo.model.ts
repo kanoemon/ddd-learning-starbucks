@@ -25,7 +25,6 @@ export class Todo extends Entity {
   })
   isComplete?: boolean;
 
-
   constructor(data?: Partial<Todo>) {
     super(data);
   }
