@@ -17,7 +17,7 @@ export class BeveragesController {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
       new InMemoryBeverageRepository()
     );
-    usecase.handle({
+    await usecase.handle({
       id: id
     });
     return new GetBeverageModel({name: 'coffee'});
