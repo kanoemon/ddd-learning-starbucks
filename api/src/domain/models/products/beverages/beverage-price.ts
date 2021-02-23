@@ -2,13 +2,10 @@ import { BeverageSize } from "./beverage-size";
 import { ProductPrice } from "../product-price";
 
 export class BeveragePrice {
-  private _beverageSize: BeverageSize;
-  private _productPrice: ProductPrice;
-
-  constructor(aBeverageSize: BeverageSize, aProductPrice: ProductPrice) {
-    this._beverageSize = aBeverageSize;
-    this._productPrice = aProductPrice;
-  }
+  constructor(
+    private _beverageSize: BeverageSize, 
+    private _productPrice: ProductPrice
+  ) {}
 
   get beverageSize(): BeverageSize {
     return this._beverageSize;

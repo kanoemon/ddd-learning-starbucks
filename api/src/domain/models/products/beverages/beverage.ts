@@ -4,19 +4,14 @@ import { BeveragePrice } from "./beverage-price";
 import { BeverageSize } from "./beverage-size";
 
 export class Beverage {
-  private _beverageId: BeverageId;
-  private _name: string;
-  private _explanation: string;
   private _beveragePrices: BeveragePrice[] = [];
 
   constructor(
-    aBeverageId: BeverageId, 
-    aName: string,
-    aExplanation: string
+    readonly beverageId: BeverageId, 
+    private _name: string,
+    private _explanation: string
   ) {
-    this._beverageId = aBeverageId;
-    this.setName(aName);
-    this._explanation = aExplanation;
+    this.setName(_name);
   }
 
   private setName(aName: string): void {
@@ -25,10 +20,6 @@ export class Beverage {
 
   get name(): string {
     return this._name;
-  }
-
-  get beverageId(): BeverageId {
-    return this._beverageId;
   }
 
   get explanation(): string {
@@ -69,6 +60,6 @@ export class Beverage {
   }
 
   equals(aBeverage: Beverage): boolean {
-    return aBeverage.beverageId.equals(this._beverageId);
+    return aBeverage.beverageId.equals(this.beverageId);
   }
 }

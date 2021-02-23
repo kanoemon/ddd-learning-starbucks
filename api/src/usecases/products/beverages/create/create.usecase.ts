@@ -2,14 +2,11 @@ import { Beverage, BeverageId, BeverageRepository } from "../../../../domain/mod
 import { NewBeverageCommand } from "./new-beverage-command";
 
 export class CreateUseCase {
-  private _beverageRepository: BeverageRepository;
 
-  constructor(beverageRepository: BeverageRepository) {
-    this._beverageRepository = beverageRepository;
-  }
+  constructor(private beverageRepository: BeverageRepository) {}
 
   async handle(newBeverageCommand: NewBeverageCommand): Promise<BeverageId> {
-    const beverageId: BeverageId = await this._beverageRepository.nextIdentity();
+    const beverageId: BeverageId = await this.beverageRepository.nextIdentity();
     const beverage: Beverage = new Beverage(
       beverageId,
       newBeverageCommand.name,
@@ -20,7 +17,7 @@ export class CreateUseCase {
       beverage.addPrice(aPrice.size, aPrice.price);
     }
 
-    await this._beverageRepository.save(beverage);
+    await this.beverageRepository.save(beverage);
 
     return beverageId;
   }

@@ -2,11 +2,7 @@ import {Beverage, BeverageId, BeverageRepository} from '../../../../domain/model
 import { GetBeverageCommand } from './get-beverage-command';
 
 export class GetBeverageUseCase {
-  private beverageRepository: BeverageRepository;
-
-  constructor(beverageRepository: BeverageRepository) {
-    this.beverageRepository = beverageRepository;
-  }
+  constructor(private beverageRepository: BeverageRepository) {}
 
   async handle(command: GetBeverageCommand): Promise<Beverage | null> {
     const beverageId: BeverageId = new BeverageId(command.id); 

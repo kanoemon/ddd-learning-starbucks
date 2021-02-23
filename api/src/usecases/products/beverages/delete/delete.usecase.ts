@@ -2,14 +2,10 @@ import {BeverageId, BeverageRepository} from '../../../../domain/models/products
 import { DeleteBeverageCommand } from './delete-beverage-command';
 
 export class DeleteUseCase {
-  private _beverageRepository: BeverageRepository;
-
-  constructor(beverageRepository: BeverageRepository) {
-    this._beverageRepository = beverageRepository;
-  }
+  constructor(private beverageRepository: BeverageRepository) {}
 
   async handle(command: DeleteBeverageCommand): Promise<void> {
-    await this._beverageRepository.remove(
+    await this.beverageRepository.remove(
       new BeverageId(command.id)
     );
   }

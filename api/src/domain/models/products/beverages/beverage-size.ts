@@ -1,8 +1,6 @@
 export class BeverageSize {
-  private _size: string;
-
-  constructor(aSize: string) {
-    this.setSize(aSize);
+  constructor(private _size: string) {
+    this.setSize(_size);
   }
 
   private setSize(aSize: string): void {

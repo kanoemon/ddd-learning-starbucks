@@ -2,15 +2,11 @@ import { Beverage, BeverageId, BeverageRepository } from "../../../../domain/mod
 import { UpdateBeverageCommand } from "./update-beverage-command";
 
 export class UpdateUseCase {
-  private _beverageRepository: BeverageRepository;
-
-  constructor(beverageRepository: BeverageRepository) {
-    this._beverageRepository = beverageRepository;
-  }
+  constructor(private beverageRepository: BeverageRepository) {}
 
   async handle(command: UpdateBeverageCommand): Promise<BeverageId> {
     const beverageId: BeverageId = new BeverageId(command.id);
-    const beverage: Beverage | null = await this._beverageRepository.findById(beverageId);
+    const beverage: Beverage | null = await this.beverageRepository.findById(beverageId);
     if (beverage === null) throw new Error('not found'); 
 
     if (command.name) beverage.changeName(command.name);

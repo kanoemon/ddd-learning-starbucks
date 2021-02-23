@@ -1,15 +1,7 @@
 export class BeverageId {
-  private _id: number;
-
-  constructor(aId: number) {
-    this._id = aId;
-  }
-
-  get id(): number {
-    return this._id;
-  }
+  constructor(readonly id: number) {}
 
   equals(aBeverageId: BeverageId): boolean {
-    return aBeverageId.id === this._id;
+    return aBeverageId.id === this.id;
   }
 }
