@@ -1,7 +1,4 @@
-import {
-  CreateUseCase,
-  NewBeverageCommand,
-} from '../../../../../usecases/products/beverages/create';
+import {CreateUseCase} from '../../../../../usecases/products/beverages/create';
 import {InMemoryBeverageRepository} from '../../../../../repositories';
 
 describe('create', () => {
