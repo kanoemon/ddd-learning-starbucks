@@ -10,10 +10,11 @@ export class BeveragesController {
   @response(200, {
     description: 'ok',
     content: {
-      'application/json': {schema: getModelSchemaRef(GetBeverageModel)},
+      //'application/json': {schema: getModelSchemaRef(GetBeverageModel)},
+      'application/json': {schema: {type: 'string'}},
     },
   })
-  async findById(
+  async getDetails(
     @param.path.number('id') id: number,
   ): Promise<GetBeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
