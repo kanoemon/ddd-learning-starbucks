@@ -1,5 +1,5 @@
 import {get, param, response, getModelSchemaRef} from '@loopback/rest';
-import {InMemoryBeverageRepository} from '../../repositories';
+import {Sqlite3BeverageRepository} from '../../repositories';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageModel} from './';
 
@@ -18,7 +18,7 @@ export class BeveragesController {
     @param.path.number('id') id: number,
   ): Promise<GetBeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
-      new InMemoryBeverageRepository(),
+      new Sqlite3BeverageRepository(),
     );
     await usecase.handle({
       id: id,
