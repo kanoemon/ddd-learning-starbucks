@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {Sqlite3BeverageRepository} from './repositories';
 
 export {ApplicationConfig};
 
@@ -17,6 +18,8 @@ export class DddLearningStarbucksApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+
+    this.setUpBindings();
 
     // Set up the custom sequence
     this.sequence(MySequence);
@@ -40,5 +43,9 @@ export class DddLearningStarbucksApplication extends BootMixin(
         nested: true,
       },
     };
+  }
+
+  setUpBindings(): void {
+    this.bind('hogehoge').toClass(Sqlite3BeverageRepository);
   }
 }

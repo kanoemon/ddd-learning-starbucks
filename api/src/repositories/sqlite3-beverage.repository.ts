@@ -6,9 +6,6 @@ import {BeverageRepository} from '../domain/models/products/beverages/beverage-r
 export class Sqlite3BeverageRepository implements BeverageRepository {
   private _beverages: Beverage[] = [];
 
-  //constructor(@inject('datasources.starbucks') private dataSource: StarbucksDataSource) {}
-  constructor(@inject('datasources.db') private dataSource: DbDataSource) {}
-
   async findById(aBeverageId: BeverageId): Promise<Beverage | null> {
     const beverages: Beverage[] = this._beverages.filter(beverage =>
       beverage.beverageId.equals(aBeverageId),

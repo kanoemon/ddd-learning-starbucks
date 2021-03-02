@@ -6,8 +6,6 @@ import {GetBeverageModel} from './';
 
 export class BeveragesController {
   constructor(
-    @repository(Sqlite3BeverageRepository)
-    private beverageRepository: Sqlite3BeverageRepository
   ) {}
 
   @get('/products/beverages/{id}')
@@ -22,7 +20,7 @@ export class BeveragesController {
     @param.path.number('id') id: number,
   ): Promise<GetBeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
-      this.beverageRepository
+      new Sqlite3BeverageRepository()
     );
     await usecase.handle({
       id: id,
