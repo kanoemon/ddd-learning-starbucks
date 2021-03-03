@@ -1,4 +1,3 @@
-import { inject } from '@loopback/core';
 import { DbDataSource, StarbucksDataSource } from '../datasources';
 import {Beverage, BeverageId} from '../domain/models/products/beverages';
 import {BeverageRepository} from '../domain/models/products/beverages/beverage-repository';

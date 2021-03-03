@@ -1,11 +1,12 @@
-import { repository } from '@loopback/repository';
+import {inject} from '@loopback/core';
 import {get, param, response, getModelSchemaRef} from '@loopback/rest';
-import {Sqlite3BeverageRepository} from '../../repositories';
+import {BeverageRepository} from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageModel} from './';
 
 export class BeveragesController {
   constructor(
+    @inject('repositories.beverageRepository') private beverageRepository: BeverageRepository
   ) {}
 
   @get('/products/beverages/{id}')
@@ -20,7 +21,7 @@ export class BeveragesController {
     @param.path.number('id') id: number,
   ): Promise<GetBeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
-      new Sqlite3BeverageRepository()
+      this.beverageRepository
     );
     await usecase.handle({
       id: id,
