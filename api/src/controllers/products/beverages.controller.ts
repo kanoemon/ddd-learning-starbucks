@@ -1,5 +1,5 @@
 import {inject} from '@loopback/core';
-import {get, param, response, getModelSchemaRef} from '@loopback/rest';
+import {get, param, response} from '@loopback/rest';
 import {BeverageRepository} from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageModel} from './';
@@ -13,8 +13,11 @@ export class BeveragesController {
   @response(200, {
     description: 'ok',
     content: {
-      //'application/json': {schema: getModelSchemaRef(GetBeverageModel)},
-      'application/json': {schema: {type: 'string'}},
+      'application/json': {
+        schema: {
+          'x-ts-type': GetBeverageModel
+        }
+      },
     },
   })
   async getDetails(
