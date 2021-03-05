@@ -1,8 +1,8 @@
 import {inject} from '@loopback/core';
 import {get, param, response} from '@loopback/rest';
-import {BeverageRepository} from '../../domain/models/products/beverages';
+import {Beverage, BeverageRepository} from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
-import {GetBeverageModel} from './';
+import {GetBeverageResponse, Price} from './';
 
 export class BeveragesController {
   constructor(
@@ -15,20 +15,29 @@ export class BeveragesController {
     content: {
       'application/json': {
         schema: {
-          'x-ts-type': GetBeverageModel
+          'x-ts-type': GetBeverageResponse
         }
       },
     },
   })
   async getDetails(
     @param.path.number('id') id: number,
-  ): Promise<GetBeverageModel> {
+  ): Promise<GetBeverageResponse> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
       this.beverageRepository
     );
-    await usecase.handle({
+    const beverage: Beverage | null = await usecase.handle({
       id: id,
     });
-    return new GetBeverageModel({name: 'coffee'});
+    const getBeverageResponse: GetBeverageResponse = new GetBeverageResponse();
+
+    if (beverage === null) return getBeverageResponse;
+
+    getBeverageResponse.id = beverage.beverageId.id;
+    getBeverageResponse.name = beverage.name;
+    getBeverageResponse.explanation = beverage.explanation;
+
+    return getBeverageResponse;
+    //return new GetBeverageResponse({name: 'coffee'});
   }
 }

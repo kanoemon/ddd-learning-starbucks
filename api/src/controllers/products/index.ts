@@ -1,2 +1,2 @@
 export * from './beverages.controller';
-export * from './get-beverage.model';
+export * from './get-beverage-response';

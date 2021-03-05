@@ -1,7 +1,7 @@
-import {Model, model, property} from '@loopback/repository';
+import {model, property} from '@loopback/repository';
 
 @model()
-export class PriceModel extends Model {
+export class Price {
   @property({
     description: 'サイズ',
     type: 'string',
@@ -14,13 +14,16 @@ export class PriceModel extends Model {
   })
   price?: number;
 
-  constructor(data?: Partial<PriceModel>) {
-    super(data);
-  }
 }
 
 @model()
-export class GetBeverageModel extends Model {
+export class GetBeverageResponse {
+  @property({
+    description: 'ID',
+    type: 'number'
+  })
+  id: number;
+
   @property({
     description: '名前',
     type: 'string',
@@ -34,10 +37,6 @@ export class GetBeverageModel extends Model {
   })
   explanation?: string;
 
-  @property.array(PriceModel)
-  prices?: PriceModel[];
-
-  constructor(data?: Partial<GetBeverageModel>) {
-    super(data);
-  }
+  @property.array(Price)
+  prices?: Price[];
 }
