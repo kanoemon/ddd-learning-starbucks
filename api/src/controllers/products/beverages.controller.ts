@@ -1,5 +1,5 @@
 import {inject} from '@loopback/core';
-import {get, param, response} from '@loopback/rest';
+import {get, param, response, HttpErrors} from '@loopback/rest';
 import {Beverage, BeverageRepository} from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
@@ -30,7 +30,7 @@ export class BeveragesController {
       id: id,
     });
 
-    if (beverage === null) throw new Error('error');
+    if (beverage === null) throw new HttpErrors.NotFound('Beverage not found');
 
     return new GetBeverageResponse(
       beverage.beverageId.id,
