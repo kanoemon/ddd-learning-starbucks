@@ -29,15 +29,16 @@ export class BeveragesController {
     const beverage: Beverage | null = await usecase.handle({
       id: id,
     });
-    const getBeverageResponse: GetBeverageResponse = new GetBeverageResponse();
 
-    if (beverage === null) return getBeverageResponse;
+    if (beverage === null) throw new Error('error');
 
-    getBeverageResponse.id = beverage.beverageId.id;
-    getBeverageResponse.name = beverage.name;
-    getBeverageResponse.explanation = beverage.explanation;
-
-    return getBeverageResponse;
-    //return new GetBeverageResponse({name: 'coffee'});
+    return new GetBeverageResponse(
+      beverage.beverageId.id,
+      beverage.name,
+      beverage.explanation,
+      beverage.beveragePrices.map((beveragePrice) => {
+        return new Price(beveragePrice.beverageSize.size, beveragePrice.productPrice.price)
+      })
+    );
   }
 }

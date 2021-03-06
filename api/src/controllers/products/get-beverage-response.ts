@@ -6,14 +6,21 @@ export class Price {
     description: 'サイズ',
     type: 'string',
   })
-  size?: string;
+  size: string;
 
   @property({
     description: '価格',
     type: 'number',
   })
-  price?: number;
+  price: number;
 
+  constructor(
+    size: string,
+    price: number
+  ) {
+    this.size = size;
+    this.price = price;
+  }
 }
 
 @model()
@@ -35,8 +42,20 @@ export class GetBeverageResponse {
     description: '説明',
     type: 'string',
   })
-  explanation?: string;
+  explanation: string;
 
   @property.array(Price)
-  prices?: Price[];
+  prices: Price[];
+
+  constructor(
+    id: number,
+    name: string,
+    explanation: string,
+    prices: Price[]
+  ) {
+    this.id = id;
+    this.name = name;
+    this.explanation = explanation;
+    this.prices = prices;
+  }
 }
