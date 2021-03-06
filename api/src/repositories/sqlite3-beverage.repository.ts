@@ -1,11 +1,17 @@
-import { DbDataSource, StarbucksDataSource } from '../datasources';
 import {Beverage, BeverageId} from '../domain/models/products/beverages';
 import {BeverageRepository} from '../domain/models/products/beverages/beverage-repository';
+import {Sequelize} from 'sequelize';
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'data/starbucks.dev.sqlite'
+});
 
 export class Sqlite3BeverageRepository implements BeverageRepository {
   private _beverages: Beverage[] = [];
 
   async findById(aBeverageId: BeverageId): Promise<Beverage | null> {
+    await sequelize.authenticate();
     const beverages: Beverage[] = this._beverages.filter(beverage =>
       beverage.beverageId.equals(aBeverageId),
     );
