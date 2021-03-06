@@ -1,4 +1,3 @@
-import { HttpErrors } from '@loopback/rest';
 import {BeveragesController} from '../../../../controllers/products';
 import { Sqlite3BeverageRepository } from '../../../../repositories';
 
