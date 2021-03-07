@@ -4,3 +4,4 @@ coverage/
 .eslintrc.js
 src/__tests__/
 jest.config.js
+src/infrastructure/sequelize/

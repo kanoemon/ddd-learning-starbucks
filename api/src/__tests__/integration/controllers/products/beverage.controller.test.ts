@@ -1,4 +1,6 @@
+import { INTEGER } from 'sequelize/types';
 import {BeveragesController} from '../../../../controllers/products';
+import { Beverage } from '../../../../domain/models/products/beverages';
 import { Sqlite3BeverageRepository } from '../../../../repositories';
 
 const models = require('../../../../infrastructure/sequelize/models');
@@ -6,14 +8,19 @@ const models = require('../../../../infrastructure/sequelize/models');
 describe('BeveragesController(integration)', () => {
   describe('beverage', () => {
     afterEach(async () => {
-      /*
-      await models.Beverages.destroy({
+      await models.BeveragePrice.destroy({
         truncate: true
-      });*/
+      });
     });
 
     it ('can find', async () => {
       // create data
+      await models.BeveragePrice.create({
+        beverageId: 1,
+        sizeId: 1,
+        price: 100
+      });
+
       const hogehoge = await models.BeverageSizeMaster.findAll();
       console.log(hogehoge);
 

@@ -1,0 +1,27 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class BeveragePrice extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  };
+  BeveragePrice.init({
+    beverageId: DataTypes.INTEGER,
+    sizeId: DataTypes.INTEGER,
+    price: DataTypes.INTEGER,
+    deleteFlg: DataTypes.BOOLEAN
+  }, {
+    sequelize,
+    modelName: 'BeveragePrice',
+  });
+  BeveragePrice.removeAttribute('id');
+  return BeveragePrice;
+};
