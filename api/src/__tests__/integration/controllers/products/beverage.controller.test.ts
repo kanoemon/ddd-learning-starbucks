@@ -21,9 +21,13 @@ describe('BeveragesController(integration)', () => {
         price: 100
       });
 
-      const hogehoge = await models.BeverageSizeMaster.findAll();
-      console.log(hogehoge);
+      //const hogehoge = await models.BeverageSizeMaster.findAll();
 
+      // test
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository()
+      );
+      await controller.getDetails(1)
     });
 
     it ('not found', async () => {

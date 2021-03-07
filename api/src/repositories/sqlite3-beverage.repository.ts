@@ -7,6 +7,23 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   private _beverages: Beverage[] = [];
 
   async findById(aBeverageId: BeverageId): Promise<Beverage | null> {
+    const beveragePrices = await models.BeveragePrice.findAll({
+      attributes: ['price'],
+      where: {
+        beverageId: aBeverageId.id,
+        deleteFlg: false
+      },
+      include: [{
+        model: models.BeverageSizeMaster,
+        required: true,
+        attributes: ['name'],
+        where: {
+          deleteFlg: false
+        }
+      }]
+    });
+    console.log(beveragePrices);
+
     const beverages: Beverage[] = this._beverages.filter(beverage =>
       beverage.beverageId.equals(aBeverageId),
     );
