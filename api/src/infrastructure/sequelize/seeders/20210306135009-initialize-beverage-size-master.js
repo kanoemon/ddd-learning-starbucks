@@ -11,11 +11,11 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('BeverageSizeMaster', [
-      {sizeId: 1, name: 'short'},
-      {sizeId: 2, name: 'tall'},
-      {sizeId: 3, name: 'grande'},
-      {sizeId: 4, name: 'venti'}
+    await queryInterface.bulkInsert('BeverageSizeMasters', [
+      {id: 1, name: 'short', deleteFlg: false, createdAt: new Date(), updatedAt: new Date()},
+      {id: 2, name: 'tall', deleteFlg: false, createdAt: new Date(), updatedAt: new Date()},
+      {id: 3, name: 'grande', deleteFlg: false, createdAt: new Date(), updatedAt: new Date()},
+      {id: 4, name: 'venti', deleteFlg: false, createdAt: new Date(), updatedAt: new Date()}
     ], {});
   },
 

@@ -1,3 +1,5 @@
+process.env.NODE_ENV='development'
+
 module.exports = {
   roots: ['<rootDir>/src'],
   testMatch: [
