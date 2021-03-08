@@ -11,23 +11,34 @@ describe('BeveragesController(integration)', () => {
       await models.BeveragePrice.destroy({
         truncate: true
       });
+      await models.Beverage.destroy({
+        truncate: true
+      });
     });
 
     it ('can find', async () => {
       // create data
+      await models.Beverage.create({
+        name: 'coffee',
+        explanation: 'hogehoge'
+      });
+      const targetBeverage = await models.Beverage.findOne({
+        attributes: ['id'],
+        where: {
+          name: 'coffee'
+        }
+      });
       await models.BeveragePrice.create({
-        beverageId: 1,
+        beverageId: targetBeverage.dataValues.id,
         sizeId: 1,
         price: 100
       });
-
-      //const hogehoge = await models.BeverageSizeMaster.findAll();
 
       // test
       const controller = new BeveragesController(
         new Sqlite3BeverageRepository()
       );
-      await controller.getDetails(1)
+      await controller.getDetails(targetBeverage.dataValues.id)
     });
 
     it ('not found', async () => {
