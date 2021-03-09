@@ -1,12 +1,16 @@
 import {inject} from '@loopback/core';
 import {get, param, response, HttpErrors} from '@loopback/rest';
-import {Beverage, BeverageRepository} from '../../domain/models/products/beverages';
+import {
+  Beverage,
+  BeverageRepository,
+} from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
 
 export class BeveragesController {
   constructor(
-    @inject('repositories.beverageRepository') private beverageRepository: BeverageRepository
+    @inject('repositories.beverageRepository')
+    private beverageRepository: BeverageRepository,
   ) {}
 
   @get('/products/beverages/{id}')
@@ -15,8 +19,8 @@ export class BeveragesController {
     content: {
       'application/json': {
         schema: {
-          'x-ts-type': GetBeverageResponse
-        }
+          'x-ts-type': GetBeverageResponse,
+        },
       },
     },
   })
@@ -24,7 +28,7 @@ export class BeveragesController {
     @param.path.number('id') id: number,
   ): Promise<GetBeverageResponse> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
-      this.beverageRepository
+      this.beverageRepository,
     );
     const beverage: Beverage | null = await usecase.handle({
       id: id,
@@ -36,9 +40,12 @@ export class BeveragesController {
       beverage.beverageId.id,
       beverage.name,
       beverage.explanation,
-      beverage.beveragePrices.map((beveragePrice) => {
-        return new Price(beveragePrice.beverageSize.size, beveragePrice.productPrice.price)
-      })
+      beverage.beveragePrices.map(beveragePrice => {
+        return new Price(
+          beveragePrice.beverageSize.size,
+          beveragePrice.productPrice.price,
+        );
+      }),
     );
   }
 }

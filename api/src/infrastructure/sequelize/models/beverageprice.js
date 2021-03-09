@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class BeveragePrice extends Model {
     /**
@@ -12,19 +10,22 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.BeverageSizeMaster, {
-        foreignKey: 'sizeId'
+        foreignKey: 'sizeId',
       });
     }
-  };
-  BeveragePrice.init({
-    beverageId: DataTypes.INTEGER,
-    sizeId: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
-    deleteFlg: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'BeveragePrice',
-  });
+  }
+  BeveragePrice.init(
+    {
+      beverageId: DataTypes.INTEGER,
+      sizeId: DataTypes.INTEGER,
+      price: DataTypes.INTEGER,
+      deleteFlg: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: 'BeveragePrice',
+    },
+  );
   BeveragePrice.removeAttribute('id');
   return BeveragePrice;
 };

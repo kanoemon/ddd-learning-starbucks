@@ -14,10 +14,7 @@ export class Price {
   })
   price: number;
 
-  constructor(
-    size: string,
-    price: number
-  ) {
+  constructor(size: string, price: number) {
     this.size = size;
     this.price = price;
   }
@@ -27,7 +24,7 @@ export class Price {
 export class GetBeverageResponse {
   @property({
     description: 'ID',
-    type: 'number'
+    type: 'number',
   })
   id: number;
 
@@ -47,12 +44,7 @@ export class GetBeverageResponse {
   @property.array(Price)
   prices: Price[];
 
-  constructor(
-    id: number,
-    name: string,
-    explanation: string,
-    prices: Price[]
-  ) {
+  constructor(id: number, name: string, explanation: string, prices: Price[]) {
     this.id = id;
     this.name = name;
     this.explanation = explanation;

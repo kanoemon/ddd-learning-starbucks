@@ -11,8 +11,8 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
       attributes: ['id', 'name', 'explanation'],
       where: {
         id: aBeverageId.id,
-        deleteFlg: false
-      }
+        deleteFlg: false,
+      },
     });
     if (foundBeverage === null) return null;
 
@@ -20,25 +20,30 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
       attributes: ['price'],
       where: {
         beverageId: aBeverageId.id,
-        deleteFlg: false
+        deleteFlg: false,
       },
-      include: [{
-        model: models.BeverageSizeMaster,
-        required: true,
-        attributes: ['name'],
-        where: {
-          deleteFlg: false
-        }
-      }]
+      include: [
+        {
+          model: models.BeverageSizeMaster,
+          required: true,
+          attributes: ['name'],
+          where: {
+            deleteFlg: false,
+          },
+        },
+      ],
     });
 
     const beverage: Beverage = new Beverage(
       aBeverageId,
       foundBeverage.dataValues.name,
-      foundBeverage.dataValues.explanation
+      foundBeverage.dataValues.explanation,
     );
     for (const foundBeveragePrice of foundBeveragePrices) {
-      beverage.addPrice(foundBeveragePrice.dataValues.BeverageSizeMaster.dataValues.name, foundBeveragePrice.dataValues.price);
+      beverage.addPrice(
+        foundBeveragePrice.dataValues.BeverageSizeMaster.dataValues.name,
+        foundBeveragePrice.dataValues.price,
+      );
     }
 
     return beverage;

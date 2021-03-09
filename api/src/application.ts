@@ -46,6 +46,8 @@ export class DddLearningStarbucksApplication extends BootMixin(
   }
 
   setUpBindings(): void {
-    this.bind('repositories.beverageRepository').toClass(Sqlite3BeverageRepository);
+    this.bind('repositories.beverageRepository').toClass(
+      Sqlite3BeverageRepository,
+    );
   }
 }
