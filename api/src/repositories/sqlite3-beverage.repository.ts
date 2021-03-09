@@ -14,6 +14,8 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
         deleteFlg: false
       }
     });
+    if (foundBeverage === null) return null;
+
     const foundBeveragePrices = await models.BeveragePrice.findAll({
       attributes: ['price'],
       where: {
@@ -29,6 +31,7 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
         }
       }]
     });
+
     const beverage: Beverage = new Beverage(
       aBeverageId,
       foundBeverage.dataValues.name,
@@ -37,12 +40,8 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
     for (const foundBeveragePrice of foundBeveragePrices) {
       beverage.addPrice(foundBeveragePrice.dataValues.BeverageSizeMaster.dataValues.name, foundBeveragePrice.dataValues.price);
     }
-    console.log(beverage);
 
-    const beverages: Beverage[] = this._beverages.filter(beverage =>
-      beverage.beverageId.equals(aBeverageId),
-    );
-    return beverages.length > 0 ? beverages[0] : null;
+    return beverage;
   }
 
   async save(aBeverage: Beverage): Promise<void> {
