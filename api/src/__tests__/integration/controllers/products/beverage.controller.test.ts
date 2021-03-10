@@ -1,10 +1,13 @@
-import {BeveragesController} from '../../../../controllers/products';
+import {
+  BeveragesController,
+  CreateBeveragesRequest,
+} from '../../../../controllers/products';
 import {Sqlite3BeverageRepository} from '../../../../repositories';
 
 const models = require('../../../../infrastructure/sequelize/models');
 
 describe('BeveragesController(integration)', () => {
-  describe('beverage', () => {
+  describe('get beverage', () => {
     afterEach(async () => {
       await models.BeveragePrice.destroy({
         truncate: true,
@@ -56,6 +59,19 @@ describe('BeveragesController(integration)', () => {
         expect(e.status).toBe(404);
         expect(e.message).toBe('Beverage not found');
       }
+    });
+  });
+
+  describe('create', () => {
+    it('success', async () => {
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository(),
+      );
+      const result = await controller.create(
+        new CreateBeveragesRequest.Beverage('coffee', 'hot coffee', [
+          new CreateBeveragesRequest.Price('short', 100),
+        ]),
+      );
     });
   });
 });

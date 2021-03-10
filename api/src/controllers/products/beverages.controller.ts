@@ -1,11 +1,20 @@
 import {inject} from '@loopback/core';
-import {get, param, response, HttpErrors} from '@loopback/rest';
+import {
+  get,
+  param,
+  response,
+  HttpErrors,
+  post,
+  requestBody,
+} from '@loopback/rest';
 import {
   Beverage,
   BeverageRepository,
+  BeverageId,
 } from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
+import {CreateBeveragesRequest} from './create-beverages-request';
 
 export class BeveragesController {
   constructor(
@@ -47,5 +56,26 @@ export class BeveragesController {
         );
       }),
     );
+  }
+
+  @post('/products/beverages')
+  @response(200, {
+    description: 'ok',
+  })
+  async create(
+    @requestBody() aBeverage: CreateBeveragesRequest.Beverage,
+  ): Promise<void> {
+    const beverageId: BeverageId = await this.beverageRepository.nextIdentity();
+    const beverage: Beverage = new Beverage(
+      beverageId,
+      aBeverage.name,
+      aBeverage.explanation,
+    );
+
+    for (const beveragePrice of aBeverage.prices) {
+      beverage.addPrice(beveragePrice.size, beveragePrice.price);
+    }
+
+    await this.beverageRepository.save(beverage);
   }
 }
