@@ -50,7 +50,23 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   }
 
   async save(aBeverage: Beverage): Promise<void> {
-    this._beverages.push(aBeverage);
+    const createdBeverage = await models.Beverage.create({
+      name: aBeverage.name,
+      explanation: aBeverage.explanation,
+    });
+
+    for (const aBeveragePrice of aBeverage.beveragePrices) {
+      const sizeMaster = await models.BeverageSizeMaster.findOne({
+        where: {
+          name: aBeveragePrice.beverageSize.size,
+        },
+      });
+      await models.BeveragePrice.create({
+        beverageId: createdBeverage.id,
+        sizeId: sizeMaster.id,
+        price: aBeveragePrice.productPrice.price,
+      });
+    }
   }
 
   async nextIdentity(): Promise<BeverageId> {
