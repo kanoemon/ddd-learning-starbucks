@@ -63,6 +63,15 @@ describe('BeveragesController(integration)', () => {
   });
 
   describe('create', () => {
+    afterEach(async () => {
+      await models.BeveragePrice.destroy({
+        truncate: true,
+      });
+      await models.Beverage.destroy({
+        truncate: true,
+      });
+    });
+
     it('success', async () => {
       const controller = new BeveragesController(
         new Sqlite3BeverageRepository(),

@@ -15,6 +15,7 @@ import {
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
 import {CreateBeveragesRequest} from './create-beverages-request';
+import {CreateBeveragesResponse} from './create-beverages-response';
 
 export class BeveragesController {
   constructor(
@@ -64,7 +65,7 @@ export class BeveragesController {
   })
   async create(
     @requestBody() aBeverage: CreateBeveragesRequest.Beverage,
-  ): Promise<void> {
+  ): Promise<CreateBeveragesResponse.Beverage> {
     const beverageId: BeverageId = await this.beverageRepository.nextIdentity();
     const beverage: Beverage = new Beverage(
       beverageId,
@@ -77,5 +78,7 @@ export class BeveragesController {
     }
 
     await this.beverageRepository.save(beverage);
+
+    return new CreateBeveragesResponse.Beverage(1);
   }
 }
