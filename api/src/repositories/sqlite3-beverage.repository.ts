@@ -50,25 +50,40 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   }
 
   async save(aBeverage: Beverage): Promise<BeverageId> {
-    const createdBeverage = await models.Beverage.create({
-      name: aBeverage.name,
-      explanation: aBeverage.explanation,
-    });
+    const t = await models.sequelize.transaction();
 
-    for (const aBeveragePrice of aBeverage.beveragePrices) {
-      const sizeMaster = await models.BeverageSizeMaster.findOne({
-        where: {
-          name: aBeveragePrice.beverageSize.size,
+    try {
+      const createdBeverage = await models.Beverage.create(
+        {
+          name: aBeverage.name,
+          explanation: aBeverage.explanation,
         },
-      });
-      await models.BeveragePrice.create({
-        beverageId: createdBeverage.id,
-        sizeId: sizeMaster.id,
-        price: aBeveragePrice.productPrice.price,
-      });
-    }
+        {transaction: t},
+      );
 
-    return new BeverageId(createdBeverage.id);
+      for (const aBeveragePrice of aBeverage.beveragePrices) {
+        const sizeMaster = await models.BeverageSizeMaster.findOne({
+          where: {
+            name: aBeveragePrice.beverageSize.size,
+          },
+        });
+        await models.BeveragePrice.create(
+          {
+            beverageId: createdBeverage.id,
+            sizeId: sizeMaster.id,
+            price: aBeveragePrice.productPrice.price,
+          },
+          {transaction: t},
+        );
+      }
+
+      t.commit();
+
+      return new BeverageId(createdBeverage.id);
+    } catch (error) {
+      t.rollback();
+      throw new Error(error);
+    }
   }
 
   async nextIdentity(): Promise<BeverageId> {
