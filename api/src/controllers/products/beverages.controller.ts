@@ -66,9 +66,8 @@ export class BeveragesController {
   async create(
     @requestBody() aBeverage: CreateBeveragesRequest.Beverage,
   ): Promise<CreateBeveragesResponse.Beverage> {
-    const beverageId: BeverageId = await this.beverageRepository.nextIdentity();
     const beverage: Beverage = new Beverage(
-      beverageId,
+      await this.beverageRepository.nextIdentity(),
       aBeverage.name,
       aBeverage.explanation,
     );
@@ -77,8 +76,8 @@ export class BeveragesController {
       beverage.addPrice(beveragePrice.size, beveragePrice.price);
     }
 
-    await this.beverageRepository.save(beverage);
+    const beverageId: BeverageId = await this.beverageRepository.save(beverage);
 
-    return new CreateBeveragesResponse.Beverage(1);
+    return new CreateBeveragesResponse.Beverage(beverageId.id);
   }
 }

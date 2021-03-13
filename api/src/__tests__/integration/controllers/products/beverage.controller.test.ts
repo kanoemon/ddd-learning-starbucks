@@ -7,16 +7,16 @@ import {Sqlite3BeverageRepository} from '../../../../repositories';
 const models = require('../../../../infrastructure/sequelize/models');
 
 describe('BeveragesController(integration)', () => {
-  describe('get beverage', () => {
-    afterEach(async () => {
-      await models.BeveragePrice.destroy({
-        truncate: true,
-      });
-      await models.Beverage.destroy({
-        truncate: true,
-      });
+  afterEach(async () => {
+    await models.BeveragePrice.destroy({
+      truncate: true,
     });
+    await models.Beverage.destroy({
+      truncate: true,
+    });
+  });
 
+  describe('get beverage', () => {
     it('can find', async () => {
       // create data
       await models.Beverage.create({
@@ -63,15 +63,6 @@ describe('BeveragesController(integration)', () => {
   });
 
   describe('create', () => {
-    afterEach(async () => {
-      await models.BeveragePrice.destroy({
-        truncate: true,
-      });
-      await models.Beverage.destroy({
-        truncate: true,
-      });
-    });
-
     it('success', async () => {
       const controller = new BeveragesController(
         new Sqlite3BeverageRepository(),
@@ -81,6 +72,11 @@ describe('BeveragesController(integration)', () => {
           new CreateBeveragesRequest.Price('short', 100),
         ]),
       );
+
+      const foundBeverage = await models.Beverage.findByPk(result.id);
+
+      expect(foundBeverage.name).toBe('coffee');
+      expect(foundBeverage.explanation).toBe('hot coffee');
     });
   });
 });

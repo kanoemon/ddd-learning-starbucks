@@ -49,7 +49,7 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
     return beverage;
   }
 
-  async save(aBeverage: Beverage): Promise<void> {
+  async save(aBeverage: Beverage): Promise<BeverageId> {
     const createdBeverage = await models.Beverage.create({
       name: aBeverage.name,
       explanation: aBeverage.explanation,
@@ -67,10 +67,12 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
         price: aBeveragePrice.productPrice.price,
       });
     }
+
+    return new BeverageId(createdBeverage.id);
   }
 
   async nextIdentity(): Promise<BeverageId> {
-    return new BeverageId(this._beverages.length + 1);
+    return new BeverageId(9999);
   }
 
   async remove(aBeverageId: BeverageId): Promise<void> {

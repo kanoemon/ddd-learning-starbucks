@@ -5,7 +5,7 @@ export namespace CreateBeveragesResponse {
   export class Beverage {
     @property({
       description: 'ID',
-      type: 'number'
+      type: 'number',
     })
     id: number;
 
