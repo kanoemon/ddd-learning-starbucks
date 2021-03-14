@@ -6,6 +6,7 @@ import {
   HttpErrors,
   post,
   requestBody,
+  del,
 } from '@loopback/rest';
 import {
   Beverage,
@@ -79,5 +80,16 @@ export class BeveragesController {
     const beverageId: BeverageId = await this.beverageRepository.save(beverage);
 
     return new CreateBeveragesResponse.Beverage(beverageId.id);
+  }
+
+  @del('/products/beverages/{id}', {
+    responses: {
+      '200': {
+        description: 'ok',
+      },
+    },
+  })
+  async remove(@param.path.number('id') id: number): Promise<void> {
+    await this.beverageRepository.remove(new BeverageId(id));
   }
 }

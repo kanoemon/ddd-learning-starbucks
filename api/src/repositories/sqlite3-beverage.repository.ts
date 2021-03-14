@@ -91,9 +91,32 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   }
 
   async remove(aBeverageId: BeverageId): Promise<void> {
-    const ExcludedBeverages: Beverage[] = this._beverages.filter(
-      beverage => !beverage.beverageId.equals(aBeverageId),
-    );
-    this._beverages = ExcludedBeverages;
+    const t = await models.sequelize.transaction();
+
+    try {
+      await models.Beverage.update(
+        {deleteFlg: true},
+        {
+          where: {
+            id: aBeverageId.id,
+          },
+        },
+        {transaction: t},
+      );
+      await models.BeveragePrice.update(
+        {deleteFlg: true},
+        {
+          where: {
+            beverageId: aBeverageId.id,
+          },
+        },
+        {transaction: t},
+      );
+
+      t.commit();
+    } catch (error) {
+      t.rollback();
+      throw new Error(error);
+    }
   }
 }
