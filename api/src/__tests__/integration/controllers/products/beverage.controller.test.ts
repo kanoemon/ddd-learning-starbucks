@@ -106,4 +106,30 @@ describe('BeveragesController(integration)', () => {
       expect(foundBeverage.deleteFlg).toBe(true);
     });
   });
+
+  describe('update', () => {
+    it('name', async () => {
+      // create data
+      await models.Beverage.create({
+        name: 'coffee',
+        explanation: 'hogehoge',
+      });
+      const targetBeverage = await models.Beverage.findOne({
+        attributes: ['id'],
+        where: {
+          name: 'coffee',
+        },
+      });
+
+      // test
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository(),
+      );
+      await controller.update(
+        targetBeverage.dataValues.id,
+        'aaa'
+      );
+
+    });
+  });
 });

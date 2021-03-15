@@ -7,6 +7,7 @@ import {
   post,
   requestBody,
   del,
+  put,
 } from '@loopback/rest';
 import {
   Beverage,
@@ -91,5 +92,19 @@ export class BeveragesController {
   })
   async remove(@param.path.number('id') id: number): Promise<void> {
     await this.beverageRepository.remove(new BeverageId(id));
+  }
+
+  @put('/products/beverages/{id}', {
+    responses: {
+      '200': {
+        description: 'ok',
+      }
+    }
+  })
+  async update(
+    @param.path.number('id') id: number,
+    @requestBody() request: string
+  ): Promise<void> {
+
   }
 }
