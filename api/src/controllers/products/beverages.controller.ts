@@ -14,6 +14,7 @@ import {
   BeverageRepository,
   BeverageId,
 } from '../../domain/models/products/beverages';
+import { CreateUseCase } from '../../usecases/products/beverages/create';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
 import {CreateBeveragesRequest} from './create-beverages-request';
@@ -68,17 +69,14 @@ export class BeveragesController {
   async create(
     @requestBody() aBeverage: CreateBeveragesRequest.Beverage,
   ): Promise<CreateBeveragesResponse.Beverage> {
-    const beverage: Beverage = new Beverage(
-      await this.beverageRepository.nextIdentity(),
-      aBeverage.name,
-      aBeverage.explanation,
-    );
-
-    for (const beveragePrice of aBeverage.prices) {
-      beverage.addPrice(beveragePrice.size, beveragePrice.price);
-    }
-
-    const beverageId: BeverageId = await this.beverageRepository.save(beverage);
+    const usecase: CreateUseCase = new CreateUseCase(this.beverageRepository);
+    const beverageId: BeverageId = await usecase.handle({
+      name: aBeverage.name,
+      explanation: aBeverage.explanation,
+      prices: aBeverage.prices.map((beveragePrice) => {
+        return {size: beveragePrice.size, price: beveragePrice.price}
+      })
+    });
 
     return new CreateBeveragesResponse.Beverage(beverageId.id);
   }
