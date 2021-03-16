@@ -20,6 +20,6 @@ export class CreateUseCase {
       beverage.addPrice(aPrice.size, aPrice.price);
     }
 
-    return await this.beverageRepository.save(beverage);
+    return this.beverageRepository.save(beverage);
   }
 }

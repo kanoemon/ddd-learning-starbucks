@@ -125,11 +125,7 @@ describe('BeveragesController(integration)', () => {
       const controller = new BeveragesController(
         new Sqlite3BeverageRepository(),
       );
-      await controller.update(
-        targetBeverage.dataValues.id,
-        'aaa'
-      );
-
+      await controller.update(targetBeverage.dataValues.id, 'aaa');
     });
   });
 });

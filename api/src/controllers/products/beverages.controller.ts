@@ -14,7 +14,8 @@ import {
   BeverageRepository,
   BeverageId,
 } from '../../domain/models/products/beverages';
-import { CreateUseCase } from '../../usecases/products/beverages/create';
+import {CreateUseCase} from '../../usecases/products/beverages/create';
+import {DeleteUseCase} from '../../usecases/products/beverages/delete';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {GetBeverageResponse, Price} from './';
 import {CreateBeveragesRequest} from './create-beverages-request';
@@ -73,9 +74,9 @@ export class BeveragesController {
     const beverageId: BeverageId = await usecase.handle({
       name: aBeverage.name,
       explanation: aBeverage.explanation,
-      prices: aBeverage.prices.map((beveragePrice) => {
-        return {size: beveragePrice.size, price: beveragePrice.price}
-      })
+      prices: aBeverage.prices.map(beveragePrice => {
+        return {size: beveragePrice.size, price: beveragePrice.price};
+      }),
     });
 
     return new CreateBeveragesResponse.Beverage(beverageId.id);
@@ -89,20 +90,21 @@ export class BeveragesController {
     },
   })
   async remove(@param.path.number('id') id: number): Promise<void> {
-    await this.beverageRepository.remove(new BeverageId(id));
+    const usecase: DeleteUseCase = new DeleteUseCase(this.beverageRepository);
+    await usecase.handle({
+      id: id,
+    });
   }
 
   @put('/products/beverages/{id}', {
     responses: {
       '200': {
         description: 'ok',
-      }
-    }
+      },
+    },
   })
   async update(
     @param.path.number('id') id: number,
-    @requestBody() request: string
-  ): Promise<void> {
-
-  }
+    @requestBody() request: string,
+  ): Promise<void> {}
 }
