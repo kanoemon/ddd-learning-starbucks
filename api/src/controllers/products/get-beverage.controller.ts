@@ -1,12 +1,11 @@
 import {inject} from '@loopback/core';
-import { model, property } from '@loopback/repository';
+import {get, HttpErrors, param} from '@loopback/rest';
 import {
-  get,
-  HttpErrors,
-  param,
-} from '@loopback/rest';
-import { Beverage, BeverageRepository } from '../../domain/models/products/beverages';
-import { GetBeverageUseCase } from '../../usecases/products/beverages/get-beverage';
+  Beverage,
+  BeverageRepository,
+} from '../../domain/models/products/beverages';
+import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
+import {GetBeverageResponse} from './get-beverage.response';
 
 export class GetBeverageController {
   constructor(
@@ -18,49 +17,38 @@ export class GetBeverageController {
     responses: {
       '200': {
         description: 'ok',
-      }
-    }
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': GetBeverageResponse.Beverage,
+            },
+          },
+        },
+      },
+    },
   })
   async get(
     @param.path.number('id') id: number,
-  ) {
-    const usecase: GetBeverageUseCase = new GetBeverageUseCase(this.beverageRepository);
+  ): Promise<GetBeverageResponse.Beverage> {
+    const usecase: GetBeverageUseCase = new GetBeverageUseCase(
+      this.beverageRepository,
+    );
     const beverage: Beverage | null = await usecase.handle({
-      id: id
+      id: id,
     });
 
-    //if (beverage === null) throw new HttpErrors.NotFound('Beverage not found');
+    if (beverage === null) throw new HttpErrors.NotFound('Beverage not found');
 
-    return new Response({
-      id: 1,
-      name: 'coffee',
-      explanation: 'hogehoge'
+    return new GetBeverageResponse.Beverage({
+      id: beverage.beverageId.id,
+      name: beverage.name,
+      explanation: beverage.explanation,
+      prices: beverage.beveragePrices.map(beveragePrice => {
+        return new GetBeverageResponse.Price({
+          size: beveragePrice.beverageSize.size,
+          price: beveragePrice.productPrice.price,
+        });
+      }),
     });
-  }
-}
-
-@model()
-export class Response {
-  @property({
-    description: 'ID',
-    type: 'number',
-  })
-  id: number;
-
-  @property({
-    description: '名前',
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    description: '説明',
-    type: 'string',
-  })
-  explanation: string;
-
-  constructor(data: Partial<Response>) {
-    Object.assign(this, data)
   }
 }
