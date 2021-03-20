@@ -46,20 +46,6 @@ export class BeveragesController {
     return new CreateBeveragesResponse.Beverage(beverageId.id);
   }
 
-  @del('/products/beverages/{id}', {
-    responses: {
-      '200': {
-        description: 'ok',
-      },
-    },
-  })
-  async remove(@param.path.number('id') id: number): Promise<void> {
-    const usecase: DeleteUseCase = new DeleteUseCase(this.beverageRepository);
-    await usecase.handle({
-      id: id,
-    });
-  }
-
   @put('/products/beverages/{id}', {
     responses: {
       '200': {
