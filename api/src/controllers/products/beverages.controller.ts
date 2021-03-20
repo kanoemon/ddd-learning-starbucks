@@ -1,26 +1,28 @@
-import {inject} from '@loopback/core';
-import {get, HttpErrors, param} from '@loopback/rest';
+import {inject} from '@loopback/context';
+import {get, param} from '@loopback/openapi-v3';
+import {HttpErrors} from '@loopback/rest';
 import {
   Beverage,
   BeverageRepository,
 } from '../../domain/models/products/beverages';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
-import {GetBeverageResponse} from './get-beverage.response';
+import {BeverageModel} from './beverage.model';
+import {PriceModel} from './price.model';
 
-export class GetBeverageController {
+export class BeveragesController {
   constructor(
     @inject('repositories.beverageRepository')
     private beverageRepository: BeverageRepository,
   ) {}
 
-  @get('/products/beverages/{id}', {
+  @get('/products/beverages/{beverageId}', {
     responses: {
       '200': {
-        description: 'ok',
+        description: '200 response',
         content: {
           'application/json': {
             schema: {
-              'x-ts-type': GetBeverageResponse.Beverage,
+              'x-ts-type': BeverageModel,
             },
           },
         },
@@ -28,23 +30,23 @@ export class GetBeverageController {
     },
   })
   async get(
-    @param.path.number('id') id: number,
-  ): Promise<GetBeverageResponse.Beverage> {
+    @param.path.number('beverageId') beverageId: number,
+  ): Promise<BeverageModel> {
     const usecase: GetBeverageUseCase = new GetBeverageUseCase(
       this.beverageRepository,
     );
     const beverage: Beverage | null = await usecase.handle({
-      id: id,
+      id: beverageId,
     });
 
     if (beverage === null) throw new HttpErrors.NotFound('Beverage not found');
 
-    return new GetBeverageResponse.Beverage({
+    return new BeverageModel({
       id: beverage.beverageId.id,
       name: beverage.name,
       explanation: beverage.explanation,
       prices: beverage.beveragePrices.map(beveragePrice => {
-        return new GetBeverageResponse.Price({
+        return new PriceModel({
           size: beveragePrice.beverageSize.size,
           price: beveragePrice.productPrice.price,
         });
