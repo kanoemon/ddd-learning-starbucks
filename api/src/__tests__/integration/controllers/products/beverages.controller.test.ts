@@ -1,3 +1,4 @@
+import {NewBeverageModel, PriceModel} from '../../../../controllers/products';
 import {BeveragesController} from '../../../../controllers/products/beverages.controller';
 import {Sqlite3BeverageRepository} from '../../../../repositories';
 
@@ -13,7 +14,7 @@ describe('BeveragesController', () => {
     });
   });
 
-  describe('get()', () => {
+  describe('get', () => {
     it('beverage can find', async () => {
       // create data
       await models.Beverage.create({
@@ -56,6 +57,31 @@ describe('BeveragesController', () => {
         expect(error.status).toBe(404);
         expect(error.message).toBe('Beverage not found');
       }
+    });
+  });
+
+  describe('create', () => {
+    it('success', async () => {
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository(),
+      );
+      const response = await controller.create(
+        new NewBeverageModel({
+          name: 'coffee',
+          explanation: 'hot coffee',
+          prices: [
+            new PriceModel({
+              size: 'short',
+              price: 100,
+            }),
+          ],
+        }),
+      );
+
+      const beverage = await models.Beverage.findByPk(response.id);
+
+      expect(beverage.name).toBe('coffee');
+      expect(beverage.explanation).toBe('hot coffee');
     });
   });
 });

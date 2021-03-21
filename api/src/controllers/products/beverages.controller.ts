@@ -1,12 +1,16 @@
 import {inject} from '@loopback/context';
-import {get, param} from '@loopback/openapi-v3';
+import {get, param, post, requestBody} from '@loopback/openapi-v3';
 import {HttpErrors} from '@loopback/rest';
 import {
   Beverage,
+  BeverageId,
   BeverageRepository,
 } from '../../domain/models/products/beverages';
+import {CreateUseCase} from '../../usecases/products/beverages/create';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
+import {BeverageIdModel} from './beverage-id.model';
 import {BeverageModel} from './beverage.model';
+import {NewBeverageModel} from './newbeverage.model';
 import {PriceModel} from './price.model';
 
 export class BeveragesController {
@@ -51,6 +55,36 @@ export class BeveragesController {
           price: beveragePrice.productPrice.price,
         });
       }),
+    });
+  }
+
+  @post('/products/beverages', {
+    responses: {
+      '200': {
+        description: '200 response',
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': BeverageModel,
+            },
+          },
+        },
+      },
+    },
+  })
+  async create(
+    @requestBody() newBeverage: NewBeverageModel,
+  ): Promise<BeverageIdModel> {
+    const usecase: CreateUseCase = new CreateUseCase(this.beverageRepository);
+    const beverageId: BeverageId = await usecase.handle({
+      name: newBeverage.name,
+      explanation: newBeverage.explanation,
+      prices: newBeverage.prices.map(beveragePrice => {
+        return {size: beveragePrice.size, price: beveragePrice.price};
+      }),
+    });
+    return new BeverageIdModel({
+      id: beverageId.id,
     });
   }
 }
