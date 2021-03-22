@@ -1,5 +1,5 @@
 import {inject} from '@loopback/context';
-import {get, param, post, requestBody} from '@loopback/openapi-v3';
+import {del, get, param, post, requestBody} from '@loopback/openapi-v3';
 import {HttpErrors} from '@loopback/rest';
 import {
   Beverage,
@@ -7,6 +7,7 @@ import {
   BeverageRepository,
 } from '../../domain/models/products/beverages';
 import {CreateUseCase} from '../../usecases/products/beverages/create';
+import {DeleteUseCase} from '../../usecases/products/beverages/delete';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
 import {BeverageIdModel} from './beverage-id.model';
 import {BeverageModel} from './beverage.model';
@@ -85,6 +86,22 @@ export class BeveragesController {
     });
     return new BeverageIdModel({
       id: beverageId.id,
+    });
+  }
+
+  @del('/products/beverages/{beverageId}', {
+    responses: {
+      '200': {
+        description: '200 response',
+      },
+    },
+  })
+  async remove(
+    @param.path.number('beverageId') beverageId: number,
+  ): Promise<void> {
+    const usecase: DeleteUseCase = new DeleteUseCase(this.beverageRepository);
+    await usecase.handle({
+      id: beverageId,
     });
   }
 }

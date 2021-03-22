@@ -84,4 +84,31 @@ describe('BeveragesController', () => {
       expect(beverage.explanation).toBe('hot coffee');
     });
   });
+
+  describe('remove', () => {
+    it('success', async () => {
+      // create data
+      await models.Beverage.create({
+        name: 'coffee',
+        explanation: 'hogehoge',
+      });
+      const targetBeverage = await models.Beverage.findOne({
+        attributes: ['id'],
+        where: {
+          name: 'coffee',
+        },
+      });
+
+      // test
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository(),
+      );
+      await controller.remove(targetBeverage.dataValues.id);
+
+      const foundBeverage = await models.Beverage.findByPk(
+        targetBeverage.dataValues.id,
+      );
+      expect(foundBeverage.deleteFlg).toBe(true);
+    });
+  });
 });
