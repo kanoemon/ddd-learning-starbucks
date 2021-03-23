@@ -58,7 +58,9 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
           name: aBeverage.name,
           explanation: aBeverage.explanation,
         },
-        {transaction: t},
+        {
+          transaction: t
+        },
       );
 
       for (const aBeveragePrice of aBeverage.beveragePrices) {
@@ -87,7 +89,7 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   }
 
   async nextIdentity(): Promise<BeverageId> {
-    return new BeverageId(9999);
+    return new BeverageId(0);
   }
 
   async remove(aBeverageId: BeverageId): Promise<void> {

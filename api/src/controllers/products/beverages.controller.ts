@@ -1,5 +1,5 @@
 import {inject} from '@loopback/context';
-import {del, get, param, post, requestBody} from '@loopback/openapi-v3';
+import {del, get, param, post, put, requestBody} from '@loopback/openapi-v3';
 import {HttpErrors} from '@loopback/rest';
 import {
   Beverage,
@@ -9,6 +9,7 @@ import {
 import {CreateUseCase} from '../../usecases/products/beverages/create';
 import {DeleteUseCase} from '../../usecases/products/beverages/delete';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
+import { UpdateUseCase } from '../../usecases/products/beverages/update';
 import {BeverageIdModel} from './beverage-id.model';
 import {BeverageModel} from './beverage.model';
 import {NewBeverageModel} from './newbeverage.model';
@@ -102,6 +103,27 @@ export class BeveragesController {
     const usecase: DeleteUseCase = new DeleteUseCase(this.beverageRepository);
     await usecase.handle({
       id: beverageId,
+    });
+  }
+
+  @put('/products/beverages/{beverageId}', {
+    responses: {
+      '200': {
+        description: 'ok',
+      }
+    }
+  })
+  async update(
+    @param.path.number('beverageId') beverageId: number,
+    @requestBody() request: BeverageModel
+  ): Promise<void> {
+    const usecase: UpdateUseCase = new UpdateUseCase(this.beverageRepository);
+    await usecase.handle({
+      id: beverageId,
+      name: request.name,
+      explanation: request.explanation,
+      priceOfShort: 0,
+      priceOfTall: 0
     });
   }
 }

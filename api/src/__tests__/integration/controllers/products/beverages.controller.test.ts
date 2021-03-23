@@ -1,4 +1,4 @@
-import {NewBeverageModel, PriceModel} from '../../../../controllers/products';
+import {BeverageModel, NewBeverageModel, PriceModel} from '../../../../controllers/products';
 import {BeveragesController} from '../../../../controllers/products/beverages.controller';
 import {Sqlite3BeverageRepository} from '../../../../repositories';
 
@@ -111,4 +111,36 @@ describe('BeveragesController', () => {
       expect(foundBeverage.deleteFlg).toBe(true);
     });
   });
+
+  describe('update', () => {
+    it('change name', async () => {
+      // create data
+      await models.Beverage.create({
+        name: 'coffee',
+        explanation: 'hogehoge',
+      });
+      const targetBeverage = await models.Beverage.findOne({
+        attributes: ['id'],
+        where: {
+          name: 'coffee',
+        },
+      });
+
+      // test
+      const controller = new BeveragesController(
+        new Sqlite3BeverageRepository(),
+      );
+      await controller.update(
+        targetBeverage.dataValues.id, 
+        new BeverageModel({
+          id: targetBeverage.dataValues.id,
+          name: 'changed name'
+        })
+      );
+
+      const beverage = await models.Beverage.findByPk(targetBeverage.dataValues.id);
+
+      expect(beverage.name).toBe('changed name');
+    })
+  })
 });

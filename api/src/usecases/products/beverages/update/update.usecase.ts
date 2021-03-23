@@ -22,6 +22,8 @@ export class UpdateUseCase {
     if (command.priceOfTall)
       beverage.changePriceOfSize('tall', command.priceOfTall);
 
+    await this.beverageRepository.save(beverage);
+
     return beverageId;
   }
 }
