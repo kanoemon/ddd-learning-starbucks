@@ -1,4 +1,8 @@
-import {BeverageModel, NewBeverageModel, PriceModel} from '../../../../controllers/products';
+import {
+  BeverageModel,
+  NewBeverageModel,
+  PriceModel,
+} from '../../../../controllers/products';
 import {BeveragesController} from '../../../../controllers/products/beverages.controller';
 import {Sqlite3BeverageRepository} from '../../../../repositories';
 
@@ -131,16 +135,18 @@ describe('BeveragesController', () => {
         new Sqlite3BeverageRepository(),
       );
       await controller.update(
-        targetBeverage.dataValues.id, 
+        targetBeverage.dataValues.id,
         new BeverageModel({
           id: targetBeverage.dataValues.id,
-          name: 'changed name'
-        })
+          name: 'changed name',
+        }),
       );
 
-      const beverage = await models.Beverage.findByPk(targetBeverage.dataValues.id);
+      const beverage = await models.Beverage.findByPk(
+        targetBeverage.dataValues.id,
+      );
 
       expect(beverage.name).toBe('changed name');
-    })
-  })
+    });
+  });
 });

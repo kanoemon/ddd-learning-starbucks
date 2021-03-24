@@ -4,8 +4,6 @@ import {BeverageRepository} from '../domain/models/products/beverages/beverage-r
 const models = require('../infrastructure/sequelize/models');
 
 export class Sqlite3BeverageRepository implements BeverageRepository {
-  private _beverages: Beverage[] = [];
-
   async findById(aBeverageId: BeverageId): Promise<Beverage | null> {
     const foundBeverage = await models.Beverage.findOne({
       attributes: ['id', 'name', 'explanation'],
@@ -50,6 +48,16 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
   }
 
   async save(aBeverage: Beverage): Promise<BeverageId> {
+    const foundBeverage = await this.findById(aBeverage.beverageId);
+    if (foundBeverage) {
+      const beverageId = await this.update(aBeverage);
+      return beverageId;
+    }
+    const beverageId = await this.create(aBeverage);
+    return beverageId;
+  }
+
+  private async create(aBeverage: Beverage): Promise<BeverageId> {
     const t = await models.sequelize.transaction();
 
     try {
@@ -59,7 +67,7 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
           explanation: aBeverage.explanation,
         },
         {
-          transaction: t
+          transaction: t,
         },
       );
 
@@ -82,6 +90,32 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
       t.commit();
 
       return new BeverageId(createdBeverage.id);
+    } catch (error) {
+      t.rollback();
+      throw new Error(error);
+    }
+  }
+
+  private async update(aBeverage: Beverage): Promise<BeverageId> {
+    const t = await models.sequelize.transaction();
+
+    try {
+      await models.Beverage.update(
+        {
+          name: aBeverage.name,
+          explanation: aBeverage.explanation,
+        },
+        {
+          where: {
+            id: aBeverage.beverageId.id,
+          },
+        },
+        {transaction: t},
+      );
+
+      t.commit();
+
+      return aBeverage.beverageId;
     } catch (error) {
       t.rollback();
       throw new Error(error);

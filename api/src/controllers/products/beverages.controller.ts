@@ -9,7 +9,7 @@ import {
 import {CreateUseCase} from '../../usecases/products/beverages/create';
 import {DeleteUseCase} from '../../usecases/products/beverages/delete';
 import {GetBeverageUseCase} from '../../usecases/products/beverages/get-beverage';
-import { UpdateUseCase } from '../../usecases/products/beverages/update';
+import {UpdateUseCase} from '../../usecases/products/beverages/update';
 import {BeverageIdModel} from './beverage-id.model';
 import {BeverageModel} from './beverage.model';
 import {NewBeverageModel} from './newbeverage.model';
@@ -110,12 +110,12 @@ export class BeveragesController {
     responses: {
       '200': {
         description: 'ok',
-      }
-    }
+      },
+    },
   })
   async update(
     @param.path.number('beverageId') beverageId: number,
-    @requestBody() request: BeverageModel
+    @requestBody() request: BeverageModel,
   ): Promise<void> {
     const usecase: UpdateUseCase = new UpdateUseCase(this.beverageRepository);
     await usecase.handle({
@@ -123,7 +123,7 @@ export class BeveragesController {
       name: request.name,
       explanation: request.explanation,
       priceOfShort: 0,
-      priceOfTall: 0
+      priceOfTall: 0,
     });
   }
 }
