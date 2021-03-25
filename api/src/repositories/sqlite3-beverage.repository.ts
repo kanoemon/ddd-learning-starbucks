@@ -57,6 +57,12 @@ export class Sqlite3BeverageRepository implements BeverageRepository {
     return beverageId;
   }
 
+  /**
+   * DBにレコードを作成する
+   * 
+   * @param aBeverage ドリンク
+   * @return BeverageId
+   */
   private async create(aBeverage: Beverage): Promise<BeverageId> {
     const t = await models.sequelize.transaction();
 
