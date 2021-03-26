@@ -1,7 +1,9 @@
 import {Beverage, BeverageId} from '../domain/models/products/beverages';
 import {BeverageRepository} from '../domain/models/products/beverages/beverage-repository';
 
-const models = require('../infrastructure/sequelize/models');
+console.log(require.resolve('./in-memory-beverage.repository'));
+console.log(require.resolve('../usecases/products/beverages/create'));
+const models = require('../infrastructure/sequelize/models/index.js');
 
 export class Sqlite3BeverageRepository implements BeverageRepository {
   async findById(aBeverageId: BeverageId): Promise<Beverage | null> {
