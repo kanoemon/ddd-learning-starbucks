@@ -1,7 +1,10 @@
 import { Controller, Get, Param, Post, Delete, Put } from '@nestjs/common';
+import { BeveragesService } from './beverages.service';
 
 @Controller('products/beverages')
 export class BeveragesController {
+  constructor(private beveragesService: BeveragesService) {}
+
   @Post()
   create() {
 
@@ -12,8 +15,9 @@ export class BeveragesController {
 
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
+  @Get(':beverageId')
+  findOne(@Param('beverageId') beverageId: number): string {
+    this.beveragesService.get(beverageId);
     return 'hello';
   }
 
