@@ -16,8 +16,8 @@ export class BeveragesController {
   }
 
   @Get(':beverageId')
-  findOne(@Param('beverageId') beverageId: number): string {
-    this.beveragesService.get(beverageId);
+  async findOne(@Param('beverageId') beverageId: number): Promise<string> {
+    await this.beveragesService.get(beverageId);
     return 'hello';
   }
 

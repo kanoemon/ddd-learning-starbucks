@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { BeverageId } from './domain/models';
+import { BeveragesRepository } from './beverages.repository';
+import { Beverage, BeverageId } from './domain/models';
 
 @Injectable()
 export class BeveragesService {
-  constructor() {}
+  constructor(private beverageRepository: BeveragesRepository) {}
 
-  get(aBeverageId: number) {
+  async get(aBeverageId: number): Promise<Beverage> {
     const beverageId: BeverageId = new BeverageId(aBeverageId);
+    return await this.beverageRepository.findById(beverageId);
   }
 }
