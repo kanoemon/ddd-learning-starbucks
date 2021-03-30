@@ -2,6 +2,10 @@
   "type": "sqlite",
   "database": "data/dev.starbucks.sqlite",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "migrations": ["dist/migrations/**/*.js"],
-  "logging": true
+  "migrations": ["infrastructure/migrations/**/*.js"],
+  "cli": {
+    "migrationsDir": "infrastructure/migrations"
+  },
+  "logging": true,
+  "synchronize": false
 }
