@@ -15,9 +15,11 @@ describe('AppController', () => {
     controller = app.get<BeveragesController>(BeveragesController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', async () => {
-      expect(await controller.findOne(1)).toBe('hello');
+  describe('findOne', () => {
+    it('should return Beverage', async () => {
+      const response = await controller.findOne(1);
+      expect(response.name).toBe('coffee');
+      expect(response.explanation).toBe('hogehoge');
     });
   });
 });

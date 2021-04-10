@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Delete, Put } from '@nestjs/common';
 import { BeveragesService } from './beverages.service';
+import { Beverage } from './domain/models';
 
 @Controller('products/beverages')
 export class BeveragesController {
@@ -16,9 +17,9 @@ export class BeveragesController {
   }
 
   @Get(':beverageId')
-  async findOne(@Param('beverageId') beverageId: number): Promise<string> {
-    await this.beveragesService.get(beverageId);
-    return 'hello';
+  async findOne(@Param('beverageId') beverageId: number): Promise<Beverage> {
+    const beverage: Beverage = await this.beveragesService.get(beverageId);
+    return beverage;
   }
 
   @Put(':id')
